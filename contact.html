@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Contact New Star in Cairo for school books, teachers' notes, orders, and delivery questions.">
+  <meta name="theme-color" content="#0B3A6A">
+  <title>New Star | Contact</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+  <div class="page-shell">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <div class="announce-bar">
+        <div class="container">
+          <p>Digital PDFs ready today · Printed books delivered across Egypt</p>
+        </div>
+      </div>
+      <nav class="navbar navbar-expand-lg sticky-top" aria-label="Primary">
+        <div class="container">
+          <a class="navbar-brand" href="index.html">
+            <i class="bi bi-star-fill brand-star" aria-hidden="true"></i>
+            <span>New Star</span>
+          </a>
+          <div class="nav-actions d-flex align-items-center gap-2 ms-auto ms-lg-0 order-lg-last">
+            <button type="button" class="icon-btn" data-bs-toggle="offcanvas" data-bs-target="#wishlistOffcanvas" aria-controls="wishlistOffcanvas" aria-label="Open wishlist">
+              <i class="bi bi-heart" aria-hidden="true"></i>
+              <span class="count-badge" id="wishlist-count">0</span>
+            </button>
+            <a class="icon-btn" href="checkout.html" aria-label="Open cart">
+              <i class="bi bi-bag" aria-hidden="true"></i>
+              <span class="count-badge" id="cart-count">0</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+          </div>
+          <div class="collapse navbar-collapse" id="mainNav">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+              <li class="nav-item"><a class="nav-link" href="store.html">Store</a></li>
+              <li class="nav-item"><a class="nav-link active" aria-current="page" href="contact.html">Contact</a></li>
+            </ul>
+            <form class="nav-search d-flex" action="search.html" method="get" role="search">
+              <label class="visually-hidden" for="nav-q">Search the catalog</label>
+              <input class="form-control" id="nav-q" type="search" name="q" placeholder="Search the shelf" autocomplete="off">
+              <button class="btn btn-accent" type="submit" aria-label="Search"><i class="bi bi-search" aria-hidden="true"></i></button>
+            </form>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main id="main">
+      <div class="container page-intro">
+        <p class="kicker">Contact</p>
+        <h1>Talk to the New Star desk</h1>
+        <p class="lede">Questions about an order, a missing variant, or a school book list all come here. The details below are sample contact info for this demo.</p>
+      </div>
+
+      <div class="container pb-5">
+        <div class="row g-4">
+          <div class="col-lg-7">
+            <form id="contact-form" class="contact-form-card" novalidate>
+              <h2 class="h4 mb-3">Send a message</h2>
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label class="form-label" for="contact-name">Name</label>
+                  <input class="form-control" id="contact-name" name="name" type="text" autocomplete="name" required>
+                  <div class="invalid-feedback" id="contact-name-error"></div>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label" for="contact-email">Email</label>
+                  <input class="form-control" id="contact-email" name="email" type="email" autocomplete="email" required>
+                  <div class="invalid-feedback" id="contact-email-error"></div>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label" for="contact-phone">Phone / WhatsApp</label>
+                  <input class="form-control" id="contact-phone" name="phone" type="tel" autocomplete="tel" placeholder="01xxxxxxxxx" required>
+                  <div class="invalid-feedback" id="contact-phone-error"></div>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label" for="contact-subject">Subject</label>
+                  <input class="form-control" id="contact-subject" name="subject" type="text" required>
+                  <div class="invalid-feedback" id="contact-subject-error"></div>
+                </div>
+                <div class="col-12">
+                  <label class="form-label" for="contact-message">Message</label>
+                  <textarea class="form-control" id="contact-message" name="message" rows="5" required></textarea>
+                  <div class="invalid-feedback" id="contact-message-error"></div>
+                </div>
+              </div>
+              <button class="btn btn-primary mt-3" type="submit">Send message</button>
+              <p class="text-secondary mt-2 mb-0">This form stays on your device. New Star does not receive it in this demo.</p>
+            </form>
+          </div>
+          <div class="col-lg-5">
+            <div class="row g-3">
+              <div class="col-12">
+                <article class="info-card">
+                  <span class="icon-blob"><i class="bi bi-telephone" aria-hidden="true"></i></span>
+                  <h2 class="h3">Phone</h2>
+                  <p><a href="tel:+20223914400">+20 2 2391 4400</a></p>
+                  <p>Sample Cairo landline.</p>
+                </article>
+              </div>
+              <div class="col-12">
+                <article class="info-card">
+                  <span class="icon-blob"><i class="bi bi-whatsapp" aria-hidden="true"></i></span>
+                  <h2 class="h3">WhatsApp</h2>
+                  <p><a href="https://wa.me/201005550192">+20 100 555 0192</a></p>
+                  <p>Sample mobile for order questions.</p>
+                </article>
+              </div>
+              <div class="col-12">
+                <article class="info-card">
+                  <span class="icon-blob"><i class="bi bi-envelope" aria-hidden="true"></i></span>
+                  <h2 class="h3">Email</h2>
+                  <p><a href="mailto:hello@newstar.example">hello@newstar.example</a></p>
+                  <p>Sample inbox. Messages are not delivered.</p>
+                </article>
+              </div>
+              <div class="col-12">
+                <article class="info-card">
+                  <span class="icon-blob"><i class="bi bi-geo-alt" aria-hidden="true"></i></span>
+                  <h2 class="h3">Address</h2>
+                  <p>14 Tahrir Square, Downtown, Cairo, Egypt</p>
+                  <p>Sample desk for pickup orders.</p>
+                </article>
+              </div>
+              <div class="col-12">
+                <article class="info-card">
+                  <span class="icon-blob"><i class="bi bi-clock" aria-hidden="true"></i></span>
+                  <h2 class="h3">Working hours</h2>
+                  <p>Saturday–Thursday, 10:00–18:00</p>
+                  <p>Friday closed. Times are for the sample desk.</p>
+                </article>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <section class="mt-5" aria-labelledby="map-heading">
+          <h2 id="map-heading" class="h4 mb-3">Find the sample desk</h2>
+          <div class="row g-4 align-items-stretch">
+            <div class="col-lg-8">
+              <iframe class="map-frame" title="Map showing the sample New Star address near Tahrir Square, Cairo" src="https://www.openstreetmap.org/export/embed.html?bbox=31.228%2C30.038%2C31.248%2C30.052&amp;layer=mapnik&amp;marker=30.0444%2C31.2357" loading="lazy"></iframe>
+            </div>
+            <div class="col-lg-4">
+              <article class="info-card h-100">
+                <h3>Map placeholder</h3>
+                <p>The pin sits on Tahrir Square in Cairo, matching the sample address. It is an OpenStreetMap embed, not a live store locator.</p>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="mt-5" aria-labelledby="faq-heading">
+          <h2 id="faq-heading" class="h3 mb-3">Questions we hear at the desk</h2>
+          <div class="accordion faq-wrap" id="faq">
+            <div class="accordion-item">
+              <h3 class="accordion-header" id="faq-one-h">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq-one" aria-expanded="true" aria-controls="faq-one">How do I place an order?</button>
+              </h3>
+              <div id="faq-one" class="accordion-collapse collapse show" aria-labelledby="faq-one-h" data-bs-parent="#faq">
+                <div class="accordion-body">Add books to the cart, open checkout, and choose delivery plus a payment method. New Star confirms the demo order with a number that starts with NS-. Nothing is charged.</div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h3 class="accordion-header" id="faq-two-h">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-two" aria-expanded="false" aria-controls="faq-two">Are the notes available as a digital PDF?</button>
+              </h3>
+              <div id="faq-two" class="accordion-collapse collapse" aria-labelledby="faq-two-h" data-bs-parent="#faq">
+                <div class="accordion-body">Yes. Choose “Digital download PDF” at checkout. In this demo the file is not generated; the confirmation simply records that you asked for the PDF.</div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h3 class="accordion-header" id="faq-three-h">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-three" aria-expanded="false" aria-controls="faq-three">How long does delivery take in Egypt?</button>
+              </h3>
+              <div id="faq-three" class="accordion-collapse collapse" aria-labelledby="faq-three-h" data-bs-parent="#faq">
+                <div class="accordion-body">Home delivery is listed as 2–5 days across governorates, with a 45 EGP shipping fee in the demo. Pickup from the Downtown Cairo desk is free. These times are sample copy, not a live courier promise.</div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h3 class="accordion-header" id="faq-four-h">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-four" aria-expanded="false" aria-controls="faq-four">Which payment methods can I use?</button>
+              </h3>
+              <div id="faq-four" class="accordion-collapse collapse" aria-labelledby="faq-four-h" data-bs-parent="#faq">
+                <div class="accordion-body">The checkout demo offers cash on delivery, card, Vodafone Cash, InstaPay, and a sample bank transfer. Card numbers never leave the browser, and no wallet or bank is actually contacted.</div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h3 class="accordion-header" id="faq-five-h">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-five" aria-expanded="false" aria-controls="faq-five">Can I return a printed book?</button>
+              </h3>
+              <div id="faq-five" class="accordion-collapse collapse" aria-labelledby="faq-five-h" data-bs-parent="#faq">
+                <div class="accordion-body">Unmarked printed books can be returned within 7 days of delivery in this sample policy. Digital PDFs are not returnable once the download is recorded. Write to the desk with your NS- order number.</div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h3 class="accordion-header" id="faq-six-h">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-six" aria-expanded="false" aria-controls="faq-six">Do promo codes work on digital orders?</button>
+              </h3>
+              <div id="faq-six" class="accordion-collapse collapse" aria-labelledby="faq-six-h" data-bs-parent="#faq">
+                <div class="accordion-body">STAR10 takes 10% off the book subtotal, and NEWSTAR50 takes 50 EGP off. Both apply before shipping, including digital orders where shipping is free. Unknown codes show an error and do not change the total.</div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <div class="row g-4">
+          <div class="col-lg-5">
+            <a class="footer-brand" href="index.html">
+              <i class="bi bi-star-fill brand-star" aria-hidden="true"></i>
+              <span>New Star</span>
+            </a>
+            <p class="mt-2">Your trusted source for school books &amp; teachers' notes.</p>
+            <p class="mt-3">Join the New Star list for new notes and past-paper drops. <a href="index.html#newsletter">Newsletter</a></p>
+          </div>
+          <div class="col-6 col-lg-3">
+            <h2>Explore</h2>
+            <ul class="footer-links">
+              <li><a href="index.html">Home</a></li>
+              <li><a href="store.html">Store</a></li>
+              <li><a href="contact.html">Contact</a></li>
+              <li><a href="checkout.html">Checkout</a></li>
+            </ul>
+          </div>
+          <div class="col-6 col-lg-4">
+            <h2>Follow</h2>
+            <div class="social-row">
+              <a href="https://facebook.com" aria-label="New Star on Facebook" target="_blank" rel="noopener noreferrer"><i class="bi bi-facebook" aria-hidden="true"></i></a>
+              <a href="https://instagram.com" aria-label="New Star on Instagram" target="_blank" rel="noopener noreferrer"><i class="bi bi-instagram" aria-hidden="true"></i></a>
+              <a href="https://youtube.com" aria-label="New Star on YouTube" target="_blank" rel="noopener noreferrer"><i class="bi bi-youtube" aria-hidden="true"></i></a>
+              <a href="https://wa.me/201005550192" aria-label="New Star on WhatsApp" target="_blank" rel="noopener noreferrer"><i class="bi bi-whatsapp" aria-hidden="true"></i></a>
+            </div>
+          </div>
+        </div>
+        <p class="copyright">© 2026 New Star. All rights reserved.</p>
+      </div>
+    </footer>
+  </div>
+
+  <div class="offcanvas offcanvas-end" tabindex="-1" id="wishlistOffcanvas" aria-labelledby="wishlistOffcanvasLabel">
+    <div class="offcanvas-header">
+      <h2 class="offcanvas-title h5" id="wishlistOffcanvasLabel">Wishlist</h2>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close wishlist"></button>
+    </div>
+    <div class="offcanvas-body">
+      <p id="wishlist-empty">Your wishlist is empty. Tap the heart on any New Star book to save it.</p>
+      <div id="wishlist-list" aria-live="polite"></div>
+    </div>
+  </div>
+
+  <div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="site-toast" class="toast" role="status" aria-live="polite" aria-atomic="true">
+      <div class="toast-header">
+        <i class="bi bi-star-fill brand-star me-2" aria-hidden="true"></i>
+        <strong class="me-auto">New Star</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close notification"></button>
+      </div>
+      <div class="toast-body" id="site-toast-body"></div>
+    </div>
+  </div>
+
+  <noscript>
+    <p class="container py-3">New Star needs JavaScript to check the contact form in this demo.</p>
+  </noscript>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/products.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Search New Star school books and teachers' notes by title, subject, teacher, level, or category.">
+  <meta name="theme-color" content="#0B3A6A">
+  <title>New Star | Search</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+  <div class="page-shell">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <div class="announce-bar">
+        <div class="container">
+          <p>Digital PDFs ready today · Printed books delivered across Egypt</p>
+        </div>
+      </div>
+      <nav class="navbar navbar-expand-lg sticky-top" aria-label="Primary">
+        <div class="container">
+          <a class="navbar-brand" href="index.html">
+            <i class="bi bi-star-fill brand-star" aria-hidden="true"></i>
+            <span>New Star</span>
+          </a>
+          <div class="nav-actions d-flex align-items-center gap-2 ms-auto ms-lg-0 order-lg-last">
+            <button type="button" class="icon-btn" data-bs-toggle="offcanvas" data-bs-target="#wishlistOffcanvas" aria-controls="wishlistOffcanvas" aria-label="Open wishlist">
+              <i class="bi bi-heart" aria-hidden="true"></i>
+              <span class="count-badge" id="wishlist-count">0</span>
+            </button>
+            <a class="icon-btn" href="checkout.html" aria-label="Open cart">
+              <i class="bi bi-bag" aria-hidden="true"></i>
+              <span class="count-badge" id="cart-count">0</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+          </div>
+          <div class="collapse navbar-collapse" id="mainNav">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+              <li class="nav-item"><a class="nav-link" href="store.html">Store</a></li>
+              <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+            </ul>
+            <form class="nav-search d-flex" action="search.html" method="get" role="search">
+              <label class="visually-hidden" for="nav-q">Search the catalog</label>
+              <input class="form-control" id="nav-q" type="search" name="q" placeholder="Search the shelf" autocomplete="off">
+              <button class="btn btn-accent" type="submit" aria-label="Search"><i class="bi bi-search" aria-hidden="true"></i></button>
+            </form>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main id="main">
+      <div class="container page-intro">
+        <p class="kicker">Search</p>
+        <h1>Find a book or a teacher’s notes</h1>
+        <p class="lede">Search titles, subjects, teachers, levels, and categories. Suggestions appear as you type.</p>
+        <form id="search-form" class="search-shell mt-4" role="search" autocomplete="off">
+          <label class="visually-hidden" for="search-input">Search New Star</label>
+          <div class="input-group input-group-lg">
+            <input class="form-control" id="search-input" type="search" name="q" placeholder="Physics, Past Papers, Dr. Hana El-Sayed…" aria-autocomplete="list" aria-controls="suggestions" aria-expanded="false">
+            <button class="btn btn-accent" type="submit">Search</button>
+          </div>
+          <ul id="suggestions" class="suggestions" role="listbox" aria-label="Search suggestions" hidden></ul>
+        </form>
+        <p id="search-count" class="mt-3 fw-bold" aria-live="polite"></p>
+      </div>
+
+      <div class="container pb-5">
+        <div id="search-prompt" class="empty-state">
+          <i class="bi bi-search" aria-hidden="true"></i>
+          <h2 class="h4">Search the New Star shelf</h2>
+          <p>Try a subject, a teacher, or a paper type. A few places to start:</p>
+          <div class="d-flex flex-wrap justify-content-center gap-2 mt-3">
+            <a class="btn btn-outline-primary btn-sm" href="search.html?q=Physics">Physics</a>
+            <a class="btn btn-outline-primary btn-sm" href="search.html?q=Past%20Papers">Past Papers</a>
+            <a class="btn btn-outline-primary btn-sm" href="search.html?q=Dr.%20Hana%20El-Sayed">Dr. Hana El-Sayed</a>
+            <a class="btn btn-outline-primary btn-sm" href="search.html?q=A.2%20Level">A.2 Level</a>
+          </div>
+        </div>
+        <div id="search-results" class="row g-4" hidden></div>
+        <div id="search-empty" class="empty-state" hidden>
+          <i class="bi bi-emoji-frown" aria-hidden="true"></i>
+          <h2 class="h4">Nothing matches “<span id="search-empty-query"></span>”</h2>
+          <p>Check the spelling, or browse by subject in the store. New Star stocks Physics, Biology, Chemistry, and Geography.</p>
+          <a class="btn btn-primary mt-3" href="store.html">Browse the store</a>
+        </div>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <div class="row g-4">
+          <div class="col-lg-5">
+            <a class="footer-brand" href="index.html">
+              <i class="bi bi-star-fill brand-star" aria-hidden="true"></i>
+              <span>New Star</span>
+            </a>
+            <p class="mt-2">Your trusted source for school books &amp; teachers' notes.</p>
+            <p class="mt-3">Join the New Star list for new notes and past-paper drops. <a href="index.html#newsletter">Newsletter</a></p>
+          </div>
+          <div class="col-6 col-lg-3">
+            <h2>Explore</h2>
+            <ul class="footer-links">
+              <li><a href="index.html">Home</a></li>
+              <li><a href="store.html">Store</a></li>
+              <li><a href="contact.html">Contact</a></li>
+              <li><a href="checkout.html">Checkout</a></li>
+            </ul>
+          </div>
+          <div class="col-6 col-lg-4">
+            <h2>Follow</h2>
+            <div class="social-row">
+              <a href="https://facebook.com" aria-label="New Star on Facebook" target="_blank" rel="noopener noreferrer"><i class="bi bi-facebook" aria-hidden="true"></i></a>
+              <a href="https://instagram.com" aria-label="New Star on Instagram" target="_blank" rel="noopener noreferrer"><i class="bi bi-instagram" aria-hidden="true"></i></a>
+              <a href="https://youtube.com" aria-label="New Star on YouTube" target="_blank" rel="noopener noreferrer"><i class="bi bi-youtube" aria-hidden="true"></i></a>
+              <a href="https://wa.me/201005550192" aria-label="New Star on WhatsApp" target="_blank" rel="noopener noreferrer"><i class="bi bi-whatsapp" aria-hidden="true"></i></a>
+            </div>
+          </div>
+        </div>
+        <p class="copyright">© 2026 New Star. All rights reserved.</p>
+      </div>
+    </footer>
+  </div>
+
+  <div class="offcanvas offcanvas-end" tabindex="-1" id="wishlistOffcanvas" aria-labelledby="wishlistOffcanvasLabel">
+    <div class="offcanvas-header">
+      <h2 class="offcanvas-title h5" id="wishlistOffcanvasLabel">Wishlist</h2>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close wishlist"></button>
+    </div>
+    <div class="offcanvas-body">
+      <p id="wishlist-empty">Your wishlist is empty. Tap the heart on any New Star book to save it.</p>
+      <div id="wishlist-list" aria-live="polite"></div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="quickViewModal" tabindex="-1" aria-labelledby="quick-view-title" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title h5" id="quick-view-title">Book</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close quick view"></button>
+        </div>
+        <div class="modal-body">
+          <div class="quick-view-layout">
+            <img class="quick-view-img" id="quick-view-img" alt="">
+            <div>
+              <p class="product-meta" id="quick-view-kicker"></p>
+              <p class="product-sub" id="quick-view-meta"></p>
+              <div id="quick-view-rating" class="my-2"></div>
+              <p id="quick-view-desc"></p>
+              <div class="product-price mt-3">
+                <span class="price" id="quick-view-price"></span>
+                <span class="old-price" id="quick-view-old" hidden></span>
+              </div>
+              <div class="d-flex flex-wrap gap-2 mt-2">
+                <button type="button" class="btn btn-primary js-add-cart" id="quick-view-cart">Add to Cart</button>
+                <button type="button" class="btn btn-outline-primary js-wishlist" id="quick-view-wish" aria-pressed="false" aria-label="Add to wishlist">
+                  <i class="bi bi-heart" aria-hidden="true"></i> Wishlist
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="site-toast" class="toast" role="status" aria-live="polite" aria-atomic="true">
+      <div class="toast-header">
+        <i class="bi bi-star-fill brand-star me-2" aria-hidden="true"></i>
+        <strong class="me-auto">New Star</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close notification"></button>
+      </div>
+      <div class="toast-body" id="site-toast-body"></div>
+    </div>
+  </div>
+
+  <noscript>
+    <p class="container py-3">New Star needs JavaScript for search suggestions, the wishlist, and the cart in this demo.</p>
+  </noscript>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/products.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/search.js"></script>
+</body>
+</html>

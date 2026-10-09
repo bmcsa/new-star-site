@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="New Star checkout demo. Review your cart in EGP, choose delivery in Egypt, and place a simulated order.">
+  <meta name="theme-color" content="#0B3A6A">
+  <title>New Star | Checkout</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+  <div class="page-shell">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <div class="announce-bar">
+        <div class="container">
+          <p>Digital PDFs ready today · Printed books delivered across Egypt</p>
+        </div>
+      </div>
+      <nav class="navbar navbar-expand-lg sticky-top" aria-label="Primary">
+        <div class="container">
+          <a class="navbar-brand" href="index.html">
+            <i class="bi bi-star-fill brand-star" aria-hidden="true"></i>
+            <span>New Star</span>
+          </a>
+          <div class="nav-actions d-flex align-items-center gap-2 ms-auto ms-lg-0 order-lg-last">
+            <button type="button" class="icon-btn" data-bs-toggle="offcanvas" data-bs-target="#wishlistOffcanvas" aria-controls="wishlistOffcanvas" aria-label="Open wishlist">
+              <i class="bi bi-heart" aria-hidden="true"></i>
+              <span class="count-badge" id="wishlist-count">0</span>
+            </button>
+            <a class="icon-btn" href="checkout.html" aria-current="page" aria-label="Open cart, current page">
+              <i class="bi bi-bag" aria-hidden="true"></i>
+              <span class="count-badge" id="cart-count">0</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+          </div>
+          <div class="collapse navbar-collapse" id="mainNav">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+              <li class="nav-item"><a class="nav-link" href="store.html">Store</a></li>
+              <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+            </ul>
+            <form class="nav-search d-flex" action="search.html" method="get" role="search">
+              <label class="visually-hidden" for="nav-q">Search the catalog</label>
+              <input class="form-control" id="nav-q" type="search" name="q" placeholder="Search the shelf" autocomplete="off">
+              <button class="btn btn-accent" type="submit" aria-label="Search"><i class="bi bi-search" aria-hidden="true"></i></button>
+            </form>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main id="main">
+      <div class="container page-intro">
+        <p class="kicker">Checkout</p>
+        <h1>Your New Star order</h1>
+        <p class="lede">Review the books, tell us where they should go, and choose a payment method. Prices are in EGP.</p>
+      </div>
+
+      <div class="container pb-5">
+        <div id="cart-empty" class="empty-state" hidden>
+          <i class="bi bi-bag" aria-hidden="true"></i>
+          <h2 class="h4">Your cart is empty</h2>
+          <p>Add a past paper or a set of notes, then come back to place the order.</p>
+          <a class="btn btn-primary mt-3" href="store.html">Browse the store</a>
+        </div>
+
+        <div id="checkout-layout" class="row g-4">
+          <div class="col-lg-5 order-first order-lg-last">
+            <aside class="summary-card" aria-labelledby="summary-heading">
+              <h2 id="summary-heading" class="h4">Order summary</h2>
+              <div class="table-responsive">
+                <table class="table align-middle cart-table">
+                  <caption class="visually-hidden">Books in your cart</caption>
+                  <thead>
+                    <tr>
+                      <th scope="col">Item</th>
+                      <th scope="col">Price</th>
+                      <th scope="col">Qty</th>
+                      <th scope="col">Total</th>
+                      <th scope="col"><span class="visually-hidden">Remove</span></th>
+                    </tr>
+                  </thead>
+                  <tbody id="cart-body"></tbody>
+                </table>
+              </div>
+              <dl class="totals-list">
+                <div><dt>Subtotal</dt><dd id="sum-subtotal">EGP 0</dd></div>
+                <div id="discount-row" hidden><dt>Discount</dt><dd id="sum-discount">EGP 0</dd></div>
+                <div><dt>Shipping</dt><dd id="sum-shipping">EGP 0</dd></div>
+                <div class="grand"><dt>Total</dt><dd id="sum-total">EGP 0</dd></div>
+              </dl>
+              <form id="promo-form" class="mt-3">
+                <label class="form-label" for="promo-code">Promo code</label>
+                <div class="input-group">
+                  <input class="form-control" id="promo-code" type="text" placeholder="STAR10 or NEWSTAR50" autocomplete="off">
+                  <button class="btn btn-outline-primary" type="submit">Apply</button>
+                </div>
+                <p id="promo-feedback" class="text-danger mt-2 mb-0" role="alert" hidden></p>
+                <p id="promo-applied" class="mt-2 mb-1 fw-bold" hidden></p>
+                <button type="button" class="btn btn-link btn-sm px-0" id="promo-clear">Remove code</button>
+              </form>
+            </aside>
+          </div>
+
+          <div class="col-lg-7">
+            <form id="checkout-form" class="contact-form-card" novalidate>
+              <h2 class="h4">Customer details</h2>
+              <div class="row g-3 mt-1">
+                <div class="col-md-6">
+                  <label class="form-label" for="cust-name">Full name</label>
+                  <input class="form-control" id="cust-name" name="name" type="text" autocomplete="name" required>
+                  <div class="invalid-feedback" id="cust-name-error"></div>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label" for="cust-phone">Phone</label>
+                  <input class="form-control" id="cust-phone" name="phone" type="tel" autocomplete="tel" required>
+                  <div class="invalid-feedback" id="cust-phone-error"></div>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label" for="cust-email">Email</label>
+                  <input class="form-control" id="cust-email" name="email" type="email" autocomplete="email" required>
+                  <div class="invalid-feedback" id="cust-email-error"></div>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label" for="cust-gov">Governorate</label>
+                  <select class="form-select" id="cust-gov" name="governorate" required>
+                    <option value="">Choose a governorate</option>
+                    <option>Alexandria</option>
+                    <option>Aswan</option>
+                    <option>Asyut</option>
+                    <option>Beheira</option>
+                    <option>Beni Suef</option>
+                    <option>Cairo</option>
+                    <option>Dakahlia</option>
+                    <option>Damietta</option>
+                    <option>Faiyum</option>
+                    <option>Gharbia</option>
+                    <option>Giza</option>
+                    <option>Ismailia</option>
+                    <option>Kafr El Sheikh</option>
+                    <option>Luxor</option>
+                    <option>Matrouh</option>
+                    <option>Minya</option>
+                    <option>Monufia</option>
+                    <option>New Valley</option>
+                    <option>North Sinai</option>
+                    <option>Port Said</option>
+                    <option>Qalyubia</option>
+                    <option>Qena</option>
+                    <option>Red Sea</option>
+                    <option>Sharqia</option>
+                    <option>Sohag</option>
+                    <option>South Sinai</option>
+                    <option>Suez</option>
+                  </select>
+                  <div class="invalid-feedback" id="cust-gov-error"></div>
+                </div>
+                <div class="col-12">
+                  <label class="form-label" for="cust-address">Address</label>
+                  <input class="form-control" id="cust-address" name="address" type="text" autocomplete="street-address">
+                  <div class="invalid-feedback" id="cust-address-error"></div>
+                </div>
+                <div class="col-12">
+                  <label class="form-label" for="cust-notes">Notes</label>
+                  <textarea class="form-control" id="cust-notes" name="notes" rows="3" placeholder="Gate code, school name, or anything the desk should know"></textarea>
+                </div>
+              </div>
+
+              <fieldset class="mt-4">
+                <legend class="h4">Delivery</legend>
+                <div class="d-grid gap-2">
+                  <div class="choice-card">
+                    <input class="form-check-input" type="radio" name="delivery" id="delivery-home" value="home" checked>
+                    <label for="delivery-home">
+                      <span class="choice-title">Home delivery</span>
+                      <span class="choice-meta">45 EGP · 2–5 days across Egypt</span>
+                    </label>
+                  </div>
+                  <div class="choice-card">
+                    <input class="form-check-input" type="radio" name="delivery" id="delivery-pickup" value="pickup">
+                    <label for="delivery-pickup">
+                      <span class="choice-title">Pickup</span>
+                      <span class="choice-meta">Free · Downtown Cairo desk</span>
+                    </label>
+                  </div>
+                  <div class="choice-card">
+                    <input class="form-check-input" type="radio" name="delivery" id="delivery-digital" value="digital">
+                    <label for="delivery-digital">
+                      <span class="choice-title">Digital download PDF</span>
+                      <span class="choice-meta">Free · recorded on the confirmation in this demo</span>
+                    </label>
+                  </div>
+                </div>
+              </fieldset>
+
+              <fieldset class="mt-4">
+                <legend class="h4">Payment</legend>
+                <p class="demo-note">Demo checkout — no real charge. Card numbers, wallet phones, and bank transfers stay in this browser and are never sent.</p>
+                <div class="d-grid gap-2 mt-3">
+                  <div class="choice-card">
+                    <input class="form-check-input" type="radio" name="payment" id="pay-cod" value="cod" checked>
+                    <label for="pay-cod">
+                      <span class="choice-title">Cash on delivery</span>
+                      <span class="choice-meta">Pay the courier when the books arrive</span>
+                    </label>
+                  </div>
+                  <div class="choice-card">
+                    <input class="form-check-input" type="radio" name="payment" id="pay-card" value="card">
+                    <label for="pay-card">
+                      <span class="choice-title">Credit / debit card</span>
+                      <span class="choice-meta">Formatted and checked here only</span>
+                    </label>
+                  </div>
+                  <div class="choice-card">
+                    <input class="form-check-input" type="radio" name="payment" id="pay-wallet" value="wallet">
+                    <label for="pay-wallet">
+                      <span class="choice-title">Mobile wallet</span>
+                      <span class="choice-meta">Vodafone Cash or InstaPay</span>
+                    </label>
+                  </div>
+                  <div class="choice-card">
+                    <input class="form-check-input" type="radio" name="payment" id="pay-bank" value="bank">
+                    <label for="pay-bank">
+                      <span class="choice-title">Bank transfer</span>
+                      <span class="choice-meta">Sample account details, not a real bank</span>
+                    </label>
+                  </div>
+                </div>
+
+                <div id="panel-cod" class="pay-panel mt-3">
+                  <p class="mb-0">Have the total ready in cash. The courier in this demo does not visit anyone.</p>
+                </div>
+                <div id="panel-card" class="pay-panel mt-3" hidden>
+                  <div class="row g-3">
+                    <div class="col-12">
+                      <label class="form-label" for="card-number">Card number</label>
+                      <input class="form-control" id="card-number" inputmode="numeric" autocomplete="cc-number" placeholder="4242 4242 4242 4242">
+                      <div class="invalid-feedback" id="card-number-error"></div>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label" for="card-expiry">Expiry</label>
+                      <input class="form-control" id="card-expiry" inputmode="numeric" autocomplete="cc-exp" placeholder="MM/YY">
+                      <div class="invalid-feedback" id="card-expiry-error"></div>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label" for="card-cvv">CVV</label>
+                      <input class="form-control" id="card-cvv" inputmode="numeric" autocomplete="cc-csc" placeholder="123">
+                      <div class="invalid-feedback" id="card-cvv-error"></div>
+                    </div>
+                  </div>
+                </div>
+                <div id="panel-wallet" class="pay-panel mt-3" hidden>
+                  <div class="row g-3">
+                    <div class="col-md-6">
+                      <label class="form-label" for="wallet-provider">Wallet</label>
+                      <select class="form-select" id="wallet-provider">
+                        <option>Vodafone Cash</option>
+                        <option>InstaPay</option>
+                      </select>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label" for="wallet-phone">Wallet phone</label>
+                      <input class="form-control" id="wallet-phone" type="tel" inputmode="tel" placeholder="01xxxxxxxxx">
+                      <div class="invalid-feedback" id="wallet-phone-error"></div>
+                    </div>
+                  </div>
+                </div>
+                <div id="panel-bank" class="pay-panel mt-3" hidden>
+                  <p>Sample bank details. Do not transfer real money.</p>
+                  <dl class="bank-details">
+                    <div><dt>Bank</dt><dd>Banque Misr (sample)</dd></div>
+                    <div><dt>Account name</dt><dd>New Star Educational Books</dd></div>
+                    <div><dt>Account number</dt><dd>9876 5432 1001</dd></div>
+                    <div><dt>IBAN</dt><dd>EG00 1234 5678 9012 3456 7890</dd></div>
+                  </dl>
+                </div>
+              </fieldset>
+
+              <button class="btn btn-primary btn-lg mt-4" type="submit">Place order</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <div class="row g-4">
+          <div class="col-lg-5">
+            <a class="footer-brand" href="index.html">
+              <i class="bi bi-star-fill brand-star" aria-hidden="true"></i>
+              <span>New Star</span>
+            </a>
+            <p class="mt-2">Your trusted source for school books &amp; teachers' notes.</p>
+            <p class="mt-3">Join the New Star list for new notes and past-paper drops. <a href="index.html#newsletter">Newsletter</a></p>
+          </div>
+          <div class="col-6 col-lg-3">
+            <h2>Explore</h2>
+            <ul class="footer-links">
+              <li><a href="index.html">Home</a></li>
+              <li><a href="store.html">Store</a></li>
+              <li><a href="contact.html">Contact</a></li>
+              <li><a href="checkout.html">Checkout</a></li>
+            </ul>
+          </div>
+          <div class="col-6 col-lg-4">
+            <h2>Follow</h2>
+            <div class="social-row">
+              <a href="https://facebook.com" aria-label="New Star on Facebook" target="_blank" rel="noopener noreferrer"><i class="bi bi-facebook" aria-hidden="true"></i></a>
+              <a href="https://instagram.com" aria-label="New Star on Instagram" target="_blank" rel="noopener noreferrer"><i class="bi bi-instagram" aria-hidden="true"></i></a>
+              <a href="https://youtube.com" aria-label="New Star on YouTube" target="_blank" rel="noopener noreferrer"><i class="bi bi-youtube" aria-hidden="true"></i></a>
+              <a href="https://wa.me/201005550192" aria-label="New Star on WhatsApp" target="_blank" rel="noopener noreferrer"><i class="bi bi-whatsapp" aria-hidden="true"></i></a>
+            </div>
+          </div>
+        </div>
+        <p class="copyright">© 2026 New Star. All rights reserved.</p>
+      </div>
+    </footer>
+  </div>
+
+  <div class="offcanvas offcanvas-end" tabindex="-1" id="wishlistOffcanvas" aria-labelledby="wishlistOffcanvasLabel">
+    <div class="offcanvas-header">
+      <h2 class="offcanvas-title h5" id="wishlistOffcanvasLabel">Wishlist</h2>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close wishlist"></button>
+    </div>
+    <div class="offcanvas-body">
+      <p id="wishlist-empty">Your wishlist is empty. Tap the heart on any New Star book to save it.</p>
+      <div id="wishlist-list" aria-live="polite"></div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="orderModal" tabindex="-1" aria-labelledby="order-modal-title" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-body text-center p-4">
+          <i class="bi bi-check-circle-fill order-success-icon" aria-hidden="true"></i>
+          <h2 class="h3 mt-2" id="order-modal-title">Thank you, <span id="order-name"></span></h2>
+          <p>New Star has your order <strong id="order-number"></strong>. This is a demo confirmation, so nothing was charged and no books will be shipped.</p>
+          <a class="btn btn-primary" href="store.html">Back to the store</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="site-toast" class="toast" role="status" aria-live="polite" aria-atomic="true">
+      <div class="toast-header">
+        <i class="bi bi-star-fill brand-star me-2" aria-hidden="true"></i>
+        <strong class="me-auto">New Star</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close notification"></button>
+      </div>
+      <div class="toast-body" id="site-toast-body"></div>
+    </div>
+  </div>
+
+  <noscript>
+    <p class="container py-3">New Star needs JavaScript to total the cart and place a demo order.</p>
+  </noscript>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/products.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/checkout.js"></script>
+</body>
+</html>
