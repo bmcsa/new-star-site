@@ -3,55 +3,82 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="New Star checkout demo. Review your cart in EGP, choose delivery in Egypt, and place a simulated order.">
+  <meta name="description" content="New Star checkout demo. Review your cart in EGP, choose delivery in Egypt, and place a simulated order." data-i18n-attr="content:meta.checkoutDescription">
   <meta name="theme-color" content="#0B3A6A">
-  <title>New Star | Checkout</title>
+  <title data-i18n="meta.checkoutTitle">New Star | Checkout</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="canonical" id="canonical-link" href="checkout.html">
+  <link rel="alternate" hreflang="en" id="hreflang-en" href="checkout.html?lang=en">
+  <link rel="alternate" hreflang="ar" id="hreflang-ar" href="checkout.html?lang=ar">
+  <link rel="alternate" hreflang="x-default" id="hreflang-default" href="checkout.html">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+  <script>
+    /* Language and direction before first paint. Arabic stays hidden until strings load. */
+    (function () {
+      var KEY = "newstar_lang";
+      var params = new URLSearchParams(window.location.search);
+      var fromUrl = params.get("lang");
+      var stored = null;
+      try { stored = localStorage.getItem(KEY); } catch (e) {}
+      var lang = fromUrl === "ar" || fromUrl === "en" ? fromUrl : (stored === "ar" || stored === "en" ? stored : ((navigator.language || "").toLowerCase().indexOf("ar") === 0 ? "ar" : "en"));
+      var root = document.documentElement;
+      root.lang = lang;
+      root.dir = lang === "ar" ? "rtl" : "ltr";
+      if (lang === "ar") root.classList.add("i18n-pending");
+      window.__NS_LANG = lang;
+      var css = lang === "ar"
+        ? "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css"
+        : "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css";
+      document.write('<link id="bootstrap-css" rel="stylesheet" href="' + css + '">');
+      setTimeout(function () { root.classList.remove("i18n-pending"); }, 4000);
+    })();
+  </script>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
   <link href="css/style.css" rel="stylesheet">
 </head>
 <body>
   <div class="page-shell">
-    <a class="skip-link" href="#main">Skip to content</a>
+    <a class="skip-link" href="#main" data-i18n="a11y.skip">Skip to content</a>
     <header class="site-header">
       <div class="announce-bar">
         <div class="container">
-          <p>Digital PDFs ready today · Printed books delivered across Egypt</p>
+          <p data-i18n="announce">Digital PDFs ready today · Printed books delivered across Egypt</p>
         </div>
       </div>
-      <nav class="navbar navbar-expand-lg sticky-top" aria-label="Primary">
+      <nav class="navbar navbar-expand-lg sticky-top" data-i18n-attr="aria-label:a11y.primaryNav">
         <div class="container">
           <a class="navbar-brand" href="index.html">
-            <i class="bi bi-star-fill brand-star" aria-hidden="true"></i>
-            <span>New Star</span>
+            <img class="brand-logo" src="images/logo.png" alt="New Star" data-i18n-attr="alt:brand.name" width="425" height="338">
           </a>
           <div class="nav-actions d-flex align-items-center gap-2 ms-auto ms-lg-0 order-lg-last">
-            <button type="button" class="icon-btn" data-bs-toggle="offcanvas" data-bs-target="#wishlistOffcanvas" aria-controls="wishlistOffcanvas" aria-label="Open wishlist">
+            <div class="lang-switch" role="group" data-i18n-attr="aria-label:a11y.language">
+              <button type="button" class="lang-switch__btn" data-set-lang="en" lang="en" hreflang="en" data-i18n-attr="aria-label:a11y.switchToEnglish" aria-pressed="true">EN</button>
+              <button type="button" class="lang-switch__btn" data-set-lang="ar" lang="ar" hreflang="ar" data-i18n-attr="aria-label:a11y.switchToArabic" aria-pressed="false">العربية</button>
+            </div>
+            <button type="button" class="icon-btn" data-bs-toggle="offcanvas" data-bs-target="#wishlistOffcanvas" aria-controls="wishlistOffcanvas" data-i18n-attr="aria-label:a11y.openWishlist">
               <i class="bi bi-heart" aria-hidden="true"></i>
               <span class="count-badge" id="wishlist-count">0</span>
             </button>
-            <a class="icon-btn" href="checkout.html" aria-current="page" aria-label="Open cart, current page">
+            <a class="icon-btn" href="checkout.html" aria-current="page" data-i18n-attr="aria-label:a11y.openCartCurrent">
               <i class="bi bi-bag" aria-hidden="true"></i>
               <span class="count-badge" id="cart-count">0</span>
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" data-i18n-attr="aria-label:a11y.toggleNav">
               <span class="navbar-toggler-icon"></span>
             </button>
           </div>
           <div class="collapse navbar-collapse" id="mainNav">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-              <li class="nav-item"><a class="nav-link" href="store.html">Store</a></li>
-              <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+              <li class="nav-item"><a class="nav-link" href="index.html" data-i18n="nav.home">Home</a></li>
+              <li class="nav-item"><a class="nav-link" href="store.html" data-i18n="nav.store">Store</a></li>
+              <li class="nav-item"><a class="nav-link" href="contact.html" data-i18n="nav.contact">Contact</a></li>
             </ul>
             <form class="nav-search d-flex" action="search.html" method="get" role="search">
-              <label class="visually-hidden" for="nav-q">Search the catalog</label>
-              <input class="form-control" id="nav-q" type="search" name="q" placeholder="Search the shelf" autocomplete="off">
-              <button class="btn btn-accent" type="submit" aria-label="Search"><i class="bi bi-search" aria-hidden="true"></i></button>
+              <label class="visually-hidden" for="nav-q" data-i18n="search.catalogLabel">Search the catalog</label>
+              <input class="form-control" id="nav-q" type="search" name="q" placeholder="Search the shelf" data-i18n-attr="placeholder:search.shelfPlaceholder" autocomplete="off">
+              <button class="btn btn-accent" type="submit" data-i18n-attr="aria-label:actions.search"><i class="bi bi-search" aria-hidden="true"></i></button>
             </form>
           </div>
         </div>
@@ -60,199 +87,199 @@
 
     <main id="main">
       <div class="container page-intro">
-        <p class="kicker">Checkout</p>
-        <h1>Your New Star order</h1>
-        <p class="lede">Review the books, tell us where they should go, and choose a payment method. Prices are in EGP.</p>
+        <p class="kicker" data-i18n="checkout.kicker">Checkout</p>
+        <h1 data-i18n="checkout.title">Your New Star order</h1>
+        <p class="lede" data-i18n="checkout.lede">Review the books, tell us where they should go, and choose a payment method. Prices are in EGP.</p>
       </div>
 
       <div class="container pb-5">
         <div id="cart-empty" class="empty-state" hidden>
           <i class="bi bi-bag" aria-hidden="true"></i>
-          <h2 class="h4">Your cart is empty</h2>
-          <p>Add a past paper or a set of notes, then come back to place the order.</p>
-          <a class="btn btn-primary mt-3" href="store.html">Browse the store</a>
+          <h2 class="h4" data-i18n="checkout.emptyTitle">Your cart is empty</h2>
+          <p data-i18n="checkout.emptyBody">Add a past paper or a set of notes, then come back to place the order.</p>
+          <a class="btn btn-primary mt-3" href="store.html" data-i18n="checkout.browse">Browse the store</a>
         </div>
 
         <div id="checkout-layout" class="row g-4">
           <div class="col-lg-5 order-first order-lg-last">
             <aside class="summary-card" aria-labelledby="summary-heading">
-              <h2 id="summary-heading" class="h4">Order summary</h2>
+              <h2 id="summary-heading" class="h4" data-i18n="checkout.summary">Order summary</h2>
               <div class="table-responsive">
                 <table class="table align-middle cart-table">
-                  <caption class="visually-hidden">Books in your cart</caption>
+                  <caption class="visually-hidden" data-i18n="checkout.caption">Books in your cart</caption>
                   <thead>
                     <tr>
-                      <th scope="col">Item</th>
-                      <th scope="col">Price</th>
-                      <th scope="col">Qty</th>
-                      <th scope="col">Total</th>
-                      <th scope="col"><span class="visually-hidden">Remove</span></th>
+                      <th scope="col" data-i18n="checkout.item">Item</th>
+                      <th scope="col" data-i18n="checkout.price">Price</th>
+                      <th scope="col" data-i18n="checkout.qty">Qty</th>
+                      <th scope="col" data-i18n="checkout.lineTotal">Total</th>
+                      <th scope="col"><span class="visually-hidden" data-i18n="checkout.remove">Remove</span></th>
                     </tr>
                   </thead>
                   <tbody id="cart-body"></tbody>
                 </table>
               </div>
               <dl class="totals-list">
-                <div><dt>Subtotal</dt><dd id="sum-subtotal">EGP 0</dd></div>
-                <div id="discount-row" hidden><dt>Discount</dt><dd id="sum-discount">EGP 0</dd></div>
-                <div><dt>Shipping</dt><dd id="sum-shipping">EGP 0</dd></div>
-                <div class="grand"><dt>Total</dt><dd id="sum-total">EGP 0</dd></div>
+                <div><dt data-i18n="checkout.subtotal">Subtotal</dt><dd id="sum-subtotal" class="money" dir="ltr">EGP 0</dd></div>
+                <div id="discount-row" hidden><dt data-i18n="checkout.discount">Discount</dt><dd id="sum-discount" class="money" dir="ltr">EGP 0</dd></div>
+                <div><dt data-i18n="checkout.shipping">Shipping</dt><dd id="sum-shipping" class="money" dir="ltr">EGP 0</dd></div>
+                <div class="grand"><dt data-i18n="checkout.total">Total</dt><dd id="sum-total" class="money" dir="ltr">EGP 0</dd></div>
               </dl>
               <form id="promo-form" class="mt-3">
-                <label class="form-label" for="promo-code">Promo code</label>
+                <label class="form-label" for="promo-code" data-i18n="checkout.promoLabel">Promo code</label>
                 <div class="input-group">
-                  <input class="form-control" id="promo-code" type="text" placeholder="STAR10 or NEWSTAR50" autocomplete="off">
-                  <button class="btn btn-outline-primary" type="submit">Apply</button>
+                  <input class="form-control" id="promo-code" type="text" placeholder="STAR10 or NEWSTAR50" data-i18n-attr="placeholder:checkout.promoPlaceholder" autocomplete="off">
+                  <button class="btn btn-outline-primary" type="submit" data-i18n="checkout.apply">Apply</button>
                 </div>
                 <p id="promo-feedback" class="text-danger mt-2 mb-0" role="alert" hidden></p>
                 <p id="promo-applied" class="mt-2 mb-1 fw-bold" hidden></p>
-                <button type="button" class="btn btn-link btn-sm px-0" id="promo-clear">Remove code</button>
+                <button type="button" class="btn btn-link btn-sm px-0" id="promo-clear" data-i18n="checkout.removeCode">Remove code</button>
               </form>
             </aside>
           </div>
 
           <div class="col-lg-7">
             <form id="checkout-form" class="contact-form-card" novalidate>
-              <h2 class="h4">Customer details</h2>
+              <h2 class="h4" data-i18n="checkout.customer">Customer details</h2>
               <div class="row g-3 mt-1">
                 <div class="col-md-6">
-                  <label class="form-label" for="cust-name">Full name</label>
+                  <label class="form-label" for="cust-name" data-i18n="checkout.fullName">Full name</label>
                   <input class="form-control" id="cust-name" name="name" type="text" autocomplete="name" required>
                   <div class="invalid-feedback" id="cust-name-error"></div>
                 </div>
                 <div class="col-md-6">
-                  <label class="form-label" for="cust-phone">Phone</label>
+                  <label class="form-label" for="cust-phone" data-i18n="checkout.phone">Phone</label>
                   <input class="form-control" id="cust-phone" name="phone" type="tel" autocomplete="tel" required>
                   <div class="invalid-feedback" id="cust-phone-error"></div>
                 </div>
                 <div class="col-md-6">
-                  <label class="form-label" for="cust-email">Email</label>
+                  <label class="form-label" for="cust-email" data-i18n="checkout.email">Email</label>
                   <input class="form-control" id="cust-email" name="email" type="email" autocomplete="email" required>
                   <div class="invalid-feedback" id="cust-email-error"></div>
                 </div>
                 <div class="col-md-6">
-                  <label class="form-label" for="cust-gov">Governorate</label>
+                  <label class="form-label" for="cust-gov" data-i18n="checkout.governorate">Governorate</label>
                   <select class="form-select" id="cust-gov" name="governorate" required>
-                    <option value="">Choose a governorate</option>
-                    <option>Alexandria</option>
-                    <option>Aswan</option>
-                    <option>Asyut</option>
-                    <option>Beheira</option>
-                    <option>Beni Suef</option>
-                    <option>Cairo</option>
-                    <option>Dakahlia</option>
-                    <option>Damietta</option>
-                    <option>Faiyum</option>
-                    <option>Gharbia</option>
-                    <option>Giza</option>
-                    <option>Ismailia</option>
-                    <option>Kafr El Sheikh</option>
-                    <option>Luxor</option>
-                    <option>Matrouh</option>
-                    <option>Minya</option>
-                    <option>Monufia</option>
-                    <option>New Valley</option>
-                    <option>North Sinai</option>
-                    <option>Port Said</option>
-                    <option>Qalyubia</option>
-                    <option>Qena</option>
-                    <option>Red Sea</option>
-                    <option>Sharqia</option>
-                    <option>Sohag</option>
-                    <option>South Sinai</option>
-                    <option>Suez</option>
+                    <option value="" data-i18n="checkout.chooseGov">Choose a governorate</option>
+                    <option value="Alexandria" data-i18n="governorates.Alexandria">Alexandria</option>
+                    <option value="Aswan" data-i18n="governorates.Aswan">Aswan</option>
+                    <option value="Asyut" data-i18n="governorates.Asyut">Asyut</option>
+                    <option value="Beheira" data-i18n="governorates.Beheira">Beheira</option>
+                    <option value="Beni Suef" data-i18n="governorates.Beni Suef">Beni Suef</option>
+                    <option value="Cairo" data-i18n="governorates.Cairo">Cairo</option>
+                    <option value="Dakahlia" data-i18n="governorates.Dakahlia">Dakahlia</option>
+                    <option value="Damietta" data-i18n="governorates.Damietta">Damietta</option>
+                    <option value="Faiyum" data-i18n="governorates.Faiyum">Faiyum</option>
+                    <option value="Gharbia" data-i18n="governorates.Gharbia">Gharbia</option>
+                    <option value="Giza" data-i18n="governorates.Giza">Giza</option>
+                    <option value="Ismailia" data-i18n="governorates.Ismailia">Ismailia</option>
+                    <option value="Kafr El Sheikh" data-i18n="governorates.Kafr El Sheikh">Kafr El Sheikh</option>
+                    <option value="Luxor" data-i18n="governorates.Luxor">Luxor</option>
+                    <option value="Matrouh" data-i18n="governorates.Matrouh">Matrouh</option>
+                    <option value="Minya" data-i18n="governorates.Minya">Minya</option>
+                    <option value="Monufia" data-i18n="governorates.Monufia">Monufia</option>
+                    <option value="New Valley" data-i18n="governorates.New Valley">New Valley</option>
+                    <option value="North Sinai" data-i18n="governorates.North Sinai">North Sinai</option>
+                    <option value="Port Said" data-i18n="governorates.Port Said">Port Said</option>
+                    <option value="Qalyubia" data-i18n="governorates.Qalyubia">Qalyubia</option>
+                    <option value="Qena" data-i18n="governorates.Qena">Qena</option>
+                    <option value="Red Sea" data-i18n="governorates.Red Sea">Red Sea</option>
+                    <option value="Sharqia" data-i18n="governorates.Sharqia">Sharqia</option>
+                    <option value="Sohag" data-i18n="governorates.Sohag">Sohag</option>
+                    <option value="South Sinai" data-i18n="governorates.South Sinai">South Sinai</option>
+                    <option value="Suez" data-i18n="governorates.Suez">Suez</option>
                   </select>
                   <div class="invalid-feedback" id="cust-gov-error"></div>
                 </div>
                 <div class="col-12">
-                  <label class="form-label" for="cust-address">Address</label>
+                  <label class="form-label" for="cust-address" data-i18n="checkout.address">Address</label>
                   <input class="form-control" id="cust-address" name="address" type="text" autocomplete="street-address">
                   <div class="invalid-feedback" id="cust-address-error"></div>
                 </div>
                 <div class="col-12">
-                  <label class="form-label" for="cust-notes">Notes</label>
-                  <textarea class="form-control" id="cust-notes" name="notes" rows="3" placeholder="Gate code, school name, or anything the desk should know"></textarea>
+                  <label class="form-label" for="cust-notes" data-i18n="checkout.notes">Notes</label>
+                  <textarea class="form-control" id="cust-notes" name="notes" rows="3" placeholder="Gate code, school name, or anything the desk should know" data-i18n-attr="placeholder:checkout.notesPlaceholder"></textarea>
                 </div>
               </div>
 
               <fieldset class="mt-4">
-                <legend class="h4">Delivery</legend>
+                <legend class="h4" data-i18n="checkout.delivery">Delivery</legend>
                 <div class="d-grid gap-2">
                   <div class="choice-card">
                     <input class="form-check-input" type="radio" name="delivery" id="delivery-home" value="home" checked>
                     <label for="delivery-home">
-                      <span class="choice-title">Home delivery</span>
-                      <span class="choice-meta">45 EGP · 2–5 days across Egypt</span>
+                      <span class="choice-title" data-i18n="checkout.homeTitle">Home delivery</span>
+                      <span class="choice-meta" data-i18n-html="checkout.homeMeta">45 EGP · 2–5 days across Egypt</span>
                     </label>
                   </div>
                   <div class="choice-card">
                     <input class="form-check-input" type="radio" name="delivery" id="delivery-pickup" value="pickup">
                     <label for="delivery-pickup">
-                      <span class="choice-title">Pickup</span>
-                      <span class="choice-meta">Free · Downtown Cairo desk</span>
+                      <span class="choice-title" data-i18n="checkout.pickupTitle">Pickup</span>
+                      <span class="choice-meta" data-i18n="checkout.pickupMeta">Free · Downtown Cairo desk</span>
                     </label>
                   </div>
                   <div class="choice-card">
                     <input class="form-check-input" type="radio" name="delivery" id="delivery-digital" value="digital">
                     <label for="delivery-digital">
-                      <span class="choice-title">Digital download PDF</span>
-                      <span class="choice-meta">Free · recorded on the confirmation in this demo</span>
+                      <span class="choice-title" data-i18n="checkout.digitalTitle">Digital download PDF</span>
+                      <span class="choice-meta" data-i18n="checkout.digitalMeta">Free · recorded on the confirmation in this demo</span>
                     </label>
                   </div>
                 </div>
               </fieldset>
 
               <fieldset class="mt-4">
-                <legend class="h4">Payment</legend>
-                <p class="demo-note">Demo checkout — no real charge. Card numbers, wallet phones, and bank transfers stay in this browser and are never sent.</p>
+                <legend class="h4" data-i18n="checkout.payment">Payment</legend>
+                <p class="demo-note" data-i18n="checkout.demoNote">Demo checkout — no real charge. Card numbers, wallet phones, and bank transfers stay in this browser and are never sent.</p>
                 <div class="d-grid gap-2 mt-3">
                   <div class="choice-card">
                     <input class="form-check-input" type="radio" name="payment" id="pay-cod" value="cod" checked>
                     <label for="pay-cod">
-                      <span class="choice-title">Cash on delivery</span>
-                      <span class="choice-meta">Pay the courier when the books arrive</span>
+                      <span class="choice-title" data-i18n="checkout.codTitle">Cash on delivery</span>
+                      <span class="choice-meta" data-i18n="checkout.codMeta">Pay the courier when the books arrive</span>
                     </label>
                   </div>
                   <div class="choice-card">
                     <input class="form-check-input" type="radio" name="payment" id="pay-card" value="card">
                     <label for="pay-card">
-                      <span class="choice-title">Credit / debit card</span>
-                      <span class="choice-meta">Formatted and checked here only</span>
+                      <span class="choice-title" data-i18n="checkout.cardTitle">Credit / debit card</span>
+                      <span class="choice-meta" data-i18n="checkout.cardMeta">Formatted and checked here only</span>
                     </label>
                   </div>
                   <div class="choice-card">
                     <input class="form-check-input" type="radio" name="payment" id="pay-wallet" value="wallet">
                     <label for="pay-wallet">
-                      <span class="choice-title">Mobile wallet</span>
-                      <span class="choice-meta">Vodafone Cash or InstaPay</span>
+                      <span class="choice-title" data-i18n="checkout.walletTitle">Mobile wallet</span>
+                      <span class="choice-meta" data-i18n="checkout.walletMeta">Vodafone Cash or InstaPay</span>
                     </label>
                   </div>
                   <div class="choice-card">
                     <input class="form-check-input" type="radio" name="payment" id="pay-bank" value="bank">
                     <label for="pay-bank">
-                      <span class="choice-title">Bank transfer</span>
-                      <span class="choice-meta">Sample account details, not a real bank</span>
+                      <span class="choice-title" data-i18n="checkout.bankTitle">Bank transfer</span>
+                      <span class="choice-meta" data-i18n="checkout.bankMeta">Sample account details, not a real bank</span>
                     </label>
                   </div>
                 </div>
 
                 <div id="panel-cod" class="pay-panel mt-3">
-                  <p class="mb-0">Have the total ready in cash. The courier in this demo does not visit anyone.</p>
+                  <p class="mb-0" data-i18n="checkout.codPanel">Have the total ready in cash. The courier in this demo does not visit anyone.</p>
                 </div>
                 <div id="panel-card" class="pay-panel mt-3" hidden>
                   <div class="row g-3">
                     <div class="col-12">
-                      <label class="form-label" for="card-number">Card number</label>
+                      <label class="form-label" for="card-number" data-i18n="checkout.cardNumber">Card number</label>
                       <input class="form-control" id="card-number" inputmode="numeric" autocomplete="cc-number" placeholder="4242 4242 4242 4242">
                       <div class="invalid-feedback" id="card-number-error"></div>
                     </div>
                     <div class="col-md-6">
-                      <label class="form-label" for="card-expiry">Expiry</label>
+                      <label class="form-label" for="card-expiry" data-i18n="checkout.expiry">Expiry</label>
                       <input class="form-control" id="card-expiry" inputmode="numeric" autocomplete="cc-exp" placeholder="MM/YY">
                       <div class="invalid-feedback" id="card-expiry-error"></div>
                     </div>
                     <div class="col-md-6">
-                      <label class="form-label" for="card-cvv">CVV</label>
+                      <label class="form-label" for="card-cvv" data-i18n="checkout.cvv">CVV</label>
                       <input class="form-control" id="card-cvv" inputmode="numeric" autocomplete="cc-csc" placeholder="123">
                       <div class="invalid-feedback" id="card-cvv-error"></div>
                     </div>
@@ -261,31 +288,31 @@
                 <div id="panel-wallet" class="pay-panel mt-3" hidden>
                   <div class="row g-3">
                     <div class="col-md-6">
-                      <label class="form-label" for="wallet-provider">Wallet</label>
+                      <label class="form-label" for="wallet-provider" data-i18n="checkout.wallet">Wallet</label>
                       <select class="form-select" id="wallet-provider">
                         <option>Vodafone Cash</option>
                         <option>InstaPay</option>
                       </select>
                     </div>
                     <div class="col-md-6">
-                      <label class="form-label" for="wallet-phone">Wallet phone</label>
-                      <input class="form-control" id="wallet-phone" type="tel" inputmode="tel" placeholder="01xxxxxxxxx">
+                      <label class="form-label" for="wallet-phone" data-i18n="checkout.walletPhone">Wallet phone</label>
+                      <input class="form-control" id="wallet-phone" type="tel" inputmode="tel" placeholder="01xxxxxxxxx" data-i18n-attr="placeholder:checkout.walletPhonePlaceholder">
                       <div class="invalid-feedback" id="wallet-phone-error"></div>
                     </div>
                   </div>
                 </div>
                 <div id="panel-bank" class="pay-panel mt-3" hidden>
-                  <p>Sample bank details. Do not transfer real money.</p>
+                  <p data-i18n="checkout.bankIntro">Sample bank details. Do not transfer real money.</p>
                   <dl class="bank-details">
-                    <div><dt>Bank</dt><dd>Banque Misr (sample)</dd></div>
-                    <div><dt>Account name</dt><dd>New Star Educational Books</dd></div>
-                    <div><dt>Account number</dt><dd>9876 5432 1001</dd></div>
-                    <div><dt>IBAN</dt><dd>EG00 1234 5678 9012 3456 7890</dd></div>
+                    <div><dt data-i18n="checkout.bankName">Bank</dt><dd data-i18n="checkout.bankValue">Banque Misr (sample)</dd></div>
+                    <div><dt data-i18n="checkout.accountName">Account name</dt><dd data-i18n="checkout.accountValue">New Star Educational Books</dd></div>
+                    <div><dt data-i18n="checkout.accountNumber">Account number</dt><dd dir="ltr">9876 5432 1001</dd></div>
+                    <div><dt data-i18n="checkout.iban">IBAN</dt><dd dir="ltr">EG00 1234 5678 9012 3456 7890</dd></div>
                   </dl>
                 </div>
               </fieldset>
 
-              <button class="btn btn-primary btn-lg mt-4" type="submit">Place order</button>
+              <button class="btn btn-primary btn-lg mt-4" type="submit" data-i18n="checkout.placeOrder">Place order</button>
             </form>
           </div>
         </div>
@@ -297,43 +324,42 @@
         <div class="row g-4">
           <div class="col-lg-5">
             <a class="footer-brand" href="index.html">
-              <i class="bi bi-star-fill brand-star" aria-hidden="true"></i>
-              <span>New Star</span>
+              <img class="brand-logo" src="images/logo.png" alt="New Star" data-i18n-attr="alt:brand.name" width="425" height="338">
             </a>
-            <p class="mt-2">Your trusted source for school books &amp; teachers' notes.</p>
-            <p class="mt-3">Join the New Star list for new notes and past-paper drops. <a href="index.html#newsletter">Newsletter</a></p>
+            <p class="mt-2" data-i18n="footer.tagline">Your trusted source for school books &amp; teachers' notes.</p>
+            <p class="mt-3" data-i18n-html="footer.newsletter">Join the New Star list for new notes and past-paper drops. <a href="index.html#newsletter">Newsletter</a></p>
           </div>
           <div class="col-6 col-lg-3">
-            <h2>Explore</h2>
+            <h2 data-i18n="footer.explore">Explore</h2>
             <ul class="footer-links">
-              <li><a href="index.html">Home</a></li>
-              <li><a href="store.html">Store</a></li>
-              <li><a href="contact.html">Contact</a></li>
-              <li><a href="checkout.html">Checkout</a></li>
+              <li><a href="index.html" data-i18n="nav.home">Home</a></li>
+              <li><a href="store.html" data-i18n="nav.store">Store</a></li>
+              <li><a href="contact.html" data-i18n="nav.contact">Contact</a></li>
+              <li><a href="checkout.html" data-i18n="nav.checkout">Checkout</a></li>
             </ul>
           </div>
           <div class="col-6 col-lg-4">
-            <h2>Follow</h2>
+            <h2 data-i18n="footer.follow">Follow</h2>
             <div class="social-row">
-              <a href="https://facebook.com" aria-label="New Star on Facebook" target="_blank" rel="noopener noreferrer"><i class="bi bi-facebook" aria-hidden="true"></i></a>
-              <a href="https://instagram.com" aria-label="New Star on Instagram" target="_blank" rel="noopener noreferrer"><i class="bi bi-instagram" aria-hidden="true"></i></a>
-              <a href="https://youtube.com" aria-label="New Star on YouTube" target="_blank" rel="noopener noreferrer"><i class="bi bi-youtube" aria-hidden="true"></i></a>
-              <a href="https://wa.me/201005550192" aria-label="New Star on WhatsApp" target="_blank" rel="noopener noreferrer"><i class="bi bi-whatsapp" aria-hidden="true"></i></a>
+              <a href="https://facebook.com" data-i18n-attr="aria-label:social.facebook" target="_blank" rel="noopener noreferrer"><i class="bi bi-facebook" aria-hidden="true"></i></a>
+              <a href="https://instagram.com" data-i18n-attr="aria-label:social.instagram" target="_blank" rel="noopener noreferrer"><i class="bi bi-instagram" aria-hidden="true"></i></a>
+              <a href="https://youtube.com" data-i18n-attr="aria-label:social.youtube" target="_blank" rel="noopener noreferrer"><i class="bi bi-youtube" aria-hidden="true"></i></a>
+              <a href="https://wa.me/201005550192" data-i18n-attr="aria-label:social.whatsapp" target="_blank" rel="noopener noreferrer"><i class="bi bi-whatsapp" aria-hidden="true"></i></a>
             </div>
           </div>
         </div>
-        <p class="copyright">© 2026 New Star. All rights reserved.</p>
+        <p class="copyright" data-i18n="footer.copyright">© 2026 New Star. All rights reserved.</p>
       </div>
     </footer>
   </div>
 
   <div class="offcanvas offcanvas-end" tabindex="-1" id="wishlistOffcanvas" aria-labelledby="wishlistOffcanvasLabel">
     <div class="offcanvas-header">
-      <h2 class="offcanvas-title h5" id="wishlistOffcanvasLabel">Wishlist</h2>
-      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close wishlist"></button>
+      <h2 class="offcanvas-title h5" id="wishlistOffcanvasLabel" data-i18n="wishlist.title">Wishlist</h2>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-i18n-attr="aria-label:a11y.closeWishlist"></button>
     </div>
     <div class="offcanvas-body">
-      <p id="wishlist-empty">Your wishlist is empty. Tap the heart on any New Star book to save it.</p>
+      <p id="wishlist-empty" data-i18n="wishlist.empty">Your wishlist is empty. Tap the heart on any New Star book to save it.</p>
       <div id="wishlist-list" aria-live="polite"></div>
     </div>
   </div>
@@ -343,9 +369,9 @@
       <div class="modal-content">
         <div class="modal-body text-center p-4">
           <i class="bi bi-check-circle-fill order-success-icon" aria-hidden="true"></i>
-          <h2 class="h3 mt-2" id="order-modal-title">Thank you, <span id="order-name"></span></h2>
-          <p>New Star has your order <strong id="order-number"></strong>. This is a demo confirmation, so nothing was charged and no books will be shipped.</p>
-          <a class="btn btn-primary" href="store.html">Back to the store</a>
+          <h2 class="h3 mt-2" id="order-modal-title" data-i18n="checkout.thanksIdle">Thank you</h2>
+          <p id="order-modal-body" data-i18n="checkout.confirmIdle">New Star has your order. This is a demo confirmation, so nothing was charged and no books will be shipped.</p>
+          <a class="btn btn-primary" href="store.html" data-i18n="checkout.backToStore">Back to the store</a>
         </div>
       </div>
     </div>
@@ -355,8 +381,8 @@
     <div id="site-toast" class="toast" role="status" aria-live="polite" aria-atomic="true">
       <div class="toast-header">
         <i class="bi bi-star-fill brand-star me-2" aria-hidden="true"></i>
-        <strong class="me-auto">New Star</strong>
-        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close notification"></button>
+        <strong class="me-auto" data-i18n="brand.name">New Star</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="toast" data-i18n-attr="aria-label:a11y.closeNotification"></button>
       </div>
       <div class="toast-body" id="site-toast-body"></div>
     </div>
@@ -368,6 +394,9 @@
 
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="i18n/en.js"></script>
+  <script src="i18n/ar.js"></script>
+  <script src="js/i18n.js"></script>
   <script src="js/products.js"></script>
   <script src="js/main.js"></script>
   <script src="js/checkout.js"></script>

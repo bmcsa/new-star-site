@@ -33,8 +33,8 @@
 
   function buildDynamicFilters() {
     var groups = [
-      { key: "teacher", name: "teacher", title: "Teacher" },
-      { key: "variant", name: "variant", title: "Variant" }
+      { key: "teacher", name: "teacher", title: window.NewStarI18n.t("store.teacher") },
+      { key: "variant", name: "variant", title: window.NewStarI18n.t("store.variant") }
     ];
     groups.forEach(function (group) {
       var values = uniqueSorted(group.key);
@@ -57,7 +57,7 @@
               '<label class="form-check-label" for="' +
               id +
               '">' +
-              NewStar.escapeHtml(value) +
+              NewStar.escapeHtml(window.NewStarI18n.catalog(group.key, value)) +
               "</label></div>"
             );
           })
@@ -97,18 +97,7 @@
 
   function matchesQuery(product, query) {
     if (!query) return true;
-    var hay = [
-      product.title,
-      product.subject,
-      product.teacher,
-      product.level,
-      product.category,
-      product.curriculum,
-      product.variant,
-      product.description
-    ]
-      .join(" ")
-      .toLowerCase();
+    var hay = window.NewStarI18n.haystack(product);
     return query.split(/\s+/).every(function (term) {
       return term && hay.indexOf(term) !== -1;
     });
@@ -163,11 +152,11 @@
       highlight: query,
       columns: "col-12 col-md-6"
     });
-    var noun = filtered.length === 1 ? "book" : "books";
+    var noun = window.NewStarI18n.noun(filtered.length, "book");
     var shown = Math.min(visibleCount, filtered.length);
     var message = filtered.length
-      ? "Showing " + shown + " of " + filtered.length + " " + noun
-      : "No books match these filters";
+      ? window.NewStarI18n.t("store.showing", { shown: shown, total: filtered.length, noun: noun })
+      : window.NewStarI18n.t("store.noMatch");
     $("#results-count").text(message);
     $("#load-more").prop("hidden", visibleCount >= filtered.length || !filtered.length);
     $("#store-empty").prop("hidden", filtered.length !== 0);
@@ -192,7 +181,7 @@
     var html = "";
     ["level", "subject", "curriculum", "category", "teacher", "variant"].forEach(function (name) {
       checkedValues(name).forEach(function (value) {
-        html += badge(name, value, value);
+        html += badge(name, value, window.NewStarI18n.catalog(name, value));
       });
     });
     if (priceIsNarrowed()) {
@@ -200,10 +189,12 @@
       html += badge("price", "price", NewStar.formatPrice(range.lo) + " – " + NewStar.formatPrice(range.hi));
     }
     var query = ($("#store-query").val() || "").trim();
-    if (query) html += badge("q", query, "Search: " + query);
+    if (query) html += badge("q", query, window.NewStarI18n.t("store.searchBadge", { query: query }));
     if (html) {
       html +=
-        '<button type="button" class="btn btn-link btn-sm p-0 js-clear-filters">Clear all</button>';
+        '<button type="button" class="btn btn-link btn-sm p-0 js-clear-filters">' +
+        NewStar.escapeHtml(window.NewStarI18n.t("store.clearAll")) +
+        "</button>";
     }
     $("#active-filters").html(html);
   }
@@ -290,13 +281,36 @@
     applyFilters();
   };
 
-  $(function () {
-    if (!$("#filter-form").length || !window.NewStar) return;
+  function restoreDynamicChecks(name, values) {
+    values.forEach(function (value) {
+      $("#filter-form input[name='" + name + "']").each(function () {
+        if (this.value === value) this.checked = true;
+      });
+    });
+  }
+
+  function refreshLanguage() {
+    var teachers = checkedValues("teacher");
+    var variants = checkedValues("variant");
     buildDynamicFilters();
-    initPrice();
-    applyQueryString();
-    bindEvents();
-    window.NewStar.applyFilters = applyFilters;
+    restoreDynamicChecks("teacher", teachers);
+    restoreDynamicChecks("variant", variants);
     applyFilters();
+  }
+
+  $(function () {
+    if (!$("#filter-form").length || !window.NewStar || !window.NewStarI18n) return;
+    window.NewStarI18n.ready.then(function () {
+      buildDynamicFilters();
+      initPrice();
+      applyQueryString();
+      bindEvents();
+      window.NewStar.applyFilters = applyFilters;
+      applyFilters();
+    });
+    $(document).on("newstar:lang", function () {
+      if (!$("#filter-form").length) return;
+      refreshLanguage();
+    });
   });
 })(jQuery);

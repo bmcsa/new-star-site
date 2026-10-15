@@ -225,6 +225,12 @@ a {
   color: var(--ns-navy);
 }
 
+.brand-logo {
+  display: block;
+  height: 84px;
+  width: auto;
+}
+
 .navbar-brand:hover,
 .navbar-brand:focus {
   color: var(--ns-navy-deep);
@@ -518,14 +524,16 @@ a {
 .product-card__media img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  background: #fff;
 }
 
 .quick-view-img {
   width: 100%;
   height: auto;
   aspect-ratio: 4 / 3;
-  object-fit: cover;
+  object-fit: contain;
+  background: #fff;
   border-radius: var(--ns-radius-sm);
   background: var(--ns-navy);
 }
@@ -717,7 +725,8 @@ input[type="range"] {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  padding: 0.25rem 0.35rem 0.25rem 0.7rem;
+  padding-block: 0.25rem;
+  padding-inline: 0.7rem 0.35rem;
   background: rgba(11, 58, 106, 0.08);
   color: var(--ns-navy);
   border-radius: 999px;
@@ -969,10 +978,60 @@ mark {
 .cart-thumb {
   width: 64px;
   height: 48px;
-  object-fit: cover;
+  object-fit: contain;
+  background: #fff;
   border-radius: 0.45rem;
   background: var(--ns-navy);
   flex-shrink: 0;
+}
+
+/* The summary column is narrower than a 5-column table even on a desktop
+   window, so stack rows whenever the cart itself is tight. */
+.summary-card .table-responsive {
+  container-type: inline-size;
+  container-name: cart;
+}
+
+@container cart (max-width: 48rem) {
+  .cart-table thead {
+    display: none;
+  }
+
+  .cart-table,
+  .cart-table tbody,
+  .cart-table tr,
+  .cart-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .cart-table tr {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.45rem 0.75rem;
+    padding-block: 0.85rem;
+    border-block-end: 1px solid var(--ns-line);
+  }
+
+  .cart-table td {
+    width: auto;
+    border: 0;
+    padding: 0;
+  }
+
+  .cart-table td:first-child {
+    flex: 1 0 100%;
+  }
+
+  .cart-table td:nth-child(5) {
+    margin-inline-start: auto;
+  }
+}
+
+.money {
+  unicode-bidi: isolate;
+  white-space: nowrap;
 }
 
 @media (max-width: 767.98px) {
@@ -1048,9 +1107,9 @@ mark {
 .wish-row img {
   width: 72px;
   height: 54px;
-  object-fit: cover;
+  object-fit: contain;
   border-radius: 0.45rem;
-  background: var(--ns-navy);
+  background: #fff;
 }
 
 .wish-actions {
@@ -1100,6 +1159,13 @@ mark {
   font-family: "Cairo", sans-serif;
   font-size: 1.35rem;
   font-weight: 700;
+}
+
+.footer-brand .brand-logo {
+  height: 72px;
+  background: #fff;
+  border-radius: 0.45rem;
+  padding: 0.2rem 0.35rem;
 }
 
 .footer-links {
@@ -1187,6 +1253,138 @@ mark {
 
   .hero-sheet-shift {
     margin-inline-start: 0;
+  }
+}
+
+/* Logo stays unmirrored in both directions. */
+.navbar-brand,
+.footer-brand {
+  direction: ltr;
+}
+
+.lang-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.1rem;
+  padding: 0.15rem;
+  border: 1px solid var(--ns-line);
+  border-radius: 999px;
+  background: var(--ns-paper);
+  flex-shrink: 0;
+}
+
+.lang-switch__btn {
+  border: 0;
+  background: transparent;
+  color: var(--ns-navy);
+  font-weight: 800;
+  font-size: 0.82rem;
+  line-height: 1.2;
+  border-radius: 999px;
+  padding: 0.35rem 0.55rem;
+  white-space: nowrap;
+}
+
+.lang-switch__btn[lang="en"] {
+  font-family: "Nunito", sans-serif;
+}
+
+.lang-switch__btn[lang="ar"] {
+  font-family: "Cairo", sans-serif;
+  letter-spacing: 0;
+}
+
+.lang-switch__btn.is-active,
+.lang-switch__btn[aria-pressed="true"] {
+  background: var(--ns-navy);
+  color: #fff;
+}
+
+.price,
+.old-price,
+.rating-value,
+.count-badge,
+.money {
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+html.i18n-pending body {
+  visibility: hidden;
+}
+
+html[lang="ar"] {
+  --bs-body-font-family: "Cairo", "Nunito", sans-serif;
+}
+
+html[lang="ar"] body {
+  line-height: 1.85;
+  letter-spacing: 0;
+}
+
+html[lang="ar"] h1,
+html[lang="ar"] h2,
+html[lang="ar"] h3,
+html[lang="ar"] h4,
+html[lang="ar"] h5,
+html[lang="ar"] h6,
+html[lang="ar"] .navbar-brand,
+html[lang="ar"] .display-title,
+html[lang="ar"] .kicker,
+html[lang="ar"] .product-meta,
+html[lang="ar"] button,
+html[lang="ar"] input,
+html[lang="ar"] textarea,
+html[lang="ar"] select {
+  letter-spacing: 0;
+}
+
+html[lang="ar"] h1,
+html[lang="ar"] h2,
+html[lang="ar"] h3,
+html[lang="ar"] .display-title {
+  line-height: 1.45;
+}
+
+html[lang="ar"] .kicker {
+  text-transform: none;
+}
+
+html[lang="ar"] input[type="email"],
+html[lang="ar"] input[type="tel"],
+html[lang="ar"] input[type="url"],
+html[lang="ar"] input[inputmode="numeric"],
+html[lang="ar"] #promo-code {
+  direction: ltr;
+  text-align: left;
+}
+
+html[dir="rtl"] .hero {
+  background:
+    radial-gradient(circle at 0% 0%, rgba(249, 115, 22, 0.22), transparent 32%),
+    linear-gradient(205deg, var(--ns-navy-deep), var(--ns-navy) 58%, var(--ns-navy-mid));
+}
+
+html[dir="rtl"] .bi-star-half {
+  transform: scaleX(-1);
+}
+
+html[dir="rtl"] input[type="range"] {
+  direction: rtl;
+}
+
+@media (max-width: 575.98px) {
+  .site-header .navbar > .container {
+    flex-wrap: wrap;
+    row-gap: 0.35rem;
+  }
+
+  .navbar-brand {
+    font-size: 1.15rem;
+  }
+
+  .lang-switch__btn {
+    padding-inline: 0.4rem;
   }
 }
 

@@ -3,55 +3,82 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Browse the New Star store: school books and teachers' notes filtered by level, subject, curriculum, and price in EGP.">
+  <meta name="description" content="Browse the New Star store: school books and teachers' notes filtered by level, subject, curriculum, and price in EGP." data-i18n-attr="content:meta.storeDescription">
   <meta name="theme-color" content="#0B3A6A">
-  <title>New Star | Store</title>
+  <title data-i18n="meta.storeTitle">New Star | Store</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="canonical" id="canonical-link" href="store.html">
+  <link rel="alternate" hreflang="en" id="hreflang-en" href="store.html?lang=en">
+  <link rel="alternate" hreflang="ar" id="hreflang-ar" href="store.html?lang=ar">
+  <link rel="alternate" hreflang="x-default" id="hreflang-default" href="store.html">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+  <script>
+    /* Language and direction before first paint. Arabic stays hidden until strings load. */
+    (function () {
+      var KEY = "newstar_lang";
+      var params = new URLSearchParams(window.location.search);
+      var fromUrl = params.get("lang");
+      var stored = null;
+      try { stored = localStorage.getItem(KEY); } catch (e) {}
+      var lang = fromUrl === "ar" || fromUrl === "en" ? fromUrl : (stored === "ar" || stored === "en" ? stored : ((navigator.language || "").toLowerCase().indexOf("ar") === 0 ? "ar" : "en"));
+      var root = document.documentElement;
+      root.lang = lang;
+      root.dir = lang === "ar" ? "rtl" : "ltr";
+      if (lang === "ar") root.classList.add("i18n-pending");
+      window.__NS_LANG = lang;
+      var css = lang === "ar"
+        ? "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css"
+        : "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css";
+      document.write('<link id="bootstrap-css" rel="stylesheet" href="' + css + '">');
+      setTimeout(function () { root.classList.remove("i18n-pending"); }, 4000);
+    })();
+  </script>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
   <link href="css/style.css" rel="stylesheet">
 </head>
 <body>
   <div class="page-shell">
-    <a class="skip-link" href="#main">Skip to content</a>
+    <a class="skip-link" href="#main" data-i18n="a11y.skip">Skip to content</a>
     <header class="site-header">
       <div class="announce-bar">
         <div class="container">
-          <p>Digital PDFs ready today · Printed books delivered across Egypt</p>
+          <p data-i18n="announce">Digital PDFs ready today · Printed books delivered across Egypt</p>
         </div>
       </div>
-      <nav class="navbar navbar-expand-lg sticky-top" aria-label="Primary">
+      <nav class="navbar navbar-expand-lg sticky-top" data-i18n-attr="aria-label:a11y.primaryNav">
         <div class="container">
           <a class="navbar-brand" href="index.html">
-            <i class="bi bi-star-fill brand-star" aria-hidden="true"></i>
-            <span>New Star</span>
+            <img class="brand-logo" src="images/logo.png" alt="New Star" data-i18n-attr="alt:brand.name" width="425" height="338">
           </a>
           <div class="nav-actions d-flex align-items-center gap-2 ms-auto ms-lg-0 order-lg-last">
-            <button type="button" class="icon-btn" data-bs-toggle="offcanvas" data-bs-target="#wishlistOffcanvas" aria-controls="wishlistOffcanvas" aria-label="Open wishlist">
+            <div class="lang-switch" role="group" data-i18n-attr="aria-label:a11y.language">
+              <button type="button" class="lang-switch__btn" data-set-lang="en" lang="en" hreflang="en" data-i18n-attr="aria-label:a11y.switchToEnglish" aria-pressed="true">EN</button>
+              <button type="button" class="lang-switch__btn" data-set-lang="ar" lang="ar" hreflang="ar" data-i18n-attr="aria-label:a11y.switchToArabic" aria-pressed="false">العربية</button>
+            </div>
+            <button type="button" class="icon-btn" data-bs-toggle="offcanvas" data-bs-target="#wishlistOffcanvas" aria-controls="wishlistOffcanvas" data-i18n-attr="aria-label:a11y.openWishlist">
               <i class="bi bi-heart" aria-hidden="true"></i>
               <span class="count-badge" id="wishlist-count">0</span>
             </button>
-            <a class="icon-btn" href="checkout.html" aria-label="Open cart">
+            <a class="icon-btn" href="checkout.html" data-i18n-attr="aria-label:a11y.openCart">
               <i class="bi bi-bag" aria-hidden="true"></i>
               <span class="count-badge" id="cart-count">0</span>
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" data-i18n-attr="aria-label:a11y.toggleNav">
               <span class="navbar-toggler-icon"></span>
             </button>
           </div>
           <div class="collapse navbar-collapse" id="mainNav">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-              <li class="nav-item"><a class="nav-link active" aria-current="page" href="store.html">Store</a></li>
-              <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+              <li class="nav-item"><a class="nav-link" href="index.html" data-i18n="nav.home">Home</a></li>
+              <li class="nav-item"><a class="nav-link active" aria-current="page" href="store.html" data-i18n="nav.store">Store</a></li>
+              <li class="nav-item"><a class="nav-link" href="contact.html" data-i18n="nav.contact">Contact</a></li>
             </ul>
             <form class="nav-search d-flex" action="search.html" method="get" role="search">
-              <label class="visually-hidden" for="nav-q">Search the catalog</label>
-              <input class="form-control" id="nav-q" type="search" name="q" placeholder="Search the shelf" autocomplete="off">
-              <button class="btn btn-accent" type="submit" aria-label="Search"><i class="bi bi-search" aria-hidden="true"></i></button>
+              <label class="visually-hidden" for="nav-q" data-i18n="search.catalogLabel">Search the catalog</label>
+              <input class="form-control" id="nav-q" type="search" name="q" placeholder="Search the shelf" data-i18n-attr="placeholder:search.shelfPlaceholder" autocomplete="off">
+              <button class="btn btn-accent" type="submit" data-i18n-attr="aria-label:actions.search"><i class="bi bi-search" aria-hidden="true"></i></button>
             </form>
           </div>
         </div>
@@ -60,123 +87,123 @@
 
     <main id="main">
       <div class="container page-intro">
-        <p class="kicker">The shelf</p>
-        <h1>School books &amp; teachers' notes</h1>
-        <p class="lede">Filter by level, subject, curriculum, category, teacher, variant, and price. Links from the home page arrive with a filter already switched on.</p>
+        <p class="kicker" data-i18n="store.kicker">The shelf</p>
+        <h1 data-i18n="store.title">School books &amp; teachers' notes</h1>
+        <p class="lede" data-i18n="store.lede">Filter by level, subject, curriculum, category, teacher, variant, and price. Links from the home page arrive with a filter already switched on.</p>
       </div>
 
       <div class="container pb-5">
         <div class="row g-4">
           <div class="col-lg-3">
             <button class="btn btn-outline-primary w-100 d-lg-none mb-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#filterOffcanvas" aria-controls="filterOffcanvas">
-              <i class="bi bi-sliders" aria-hidden="true"></i> Filters
+              <i class="bi bi-sliders" aria-hidden="true"></i> <span data-i18n="store.filters">Filters</span>
             </button>
             <div class="offcanvas-lg offcanvas-start" tabindex="-1" id="filterOffcanvas" aria-labelledby="filter-heading">
               <div class="offcanvas-header">
-                <h2 class="offcanvas-title h5" id="filter-heading">Filters</h2>
-                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close filters"></button>
+                <h2 class="offcanvas-title h5" id="filter-heading" data-i18n="store.filters">Filters</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-i18n-attr="aria-label:a11y.closeFilters"></button>
               </div>
               <div class="offcanvas-body">
                 <form id="filter-form" class="filter-panel">
-                  <h2 class="h5 mb-3 d-none d-lg-block">Filter the shelf</h2>
+                  <h2 class="h5 mb-3 d-none d-lg-block" data-i18n="store.filterShelf">Filter the shelf</h2>
                   <div class="filter-group">
-                    <h3>Level</h3>
+                    <h3 data-i18n="store.level">Level</h3>
                     <div class="form-check">
                       <input class="form-check-input" type="checkbox" name="level" id="level-olevel" value="O.Level">
-                      <label class="form-check-label" for="level-olevel">O.Level</label>
+                      <label class="form-check-label" for="level-olevel" data-i18n-catalog="level|O.Level">O.Level</label>
                     </div>
                     <div class="form-check">
                       <input class="form-check-input" type="checkbox" name="level" id="level-pre-ig" value="Pre IG">
-                      <label class="form-check-label" for="level-pre-ig">Pre IG</label>
+                      <label class="form-check-label" for="level-pre-ig" data-i18n-catalog="level|Pre IG">Pre IG</label>
                     </div>
                     <div class="form-check">
                       <input class="form-check-input" type="checkbox" name="level" id="level-as" value="A.S Level">
-                      <label class="form-check-label" for="level-as">A.S Level</label>
+                      <label class="form-check-label" for="level-as" data-i18n-catalog="level|A.S Level">A.S Level</label>
                     </div>
                     <div class="form-check">
                       <input class="form-check-input" type="checkbox" name="level" id="level-a2" value="A.2 Level">
-                      <label class="form-check-label" for="level-a2">A.2 Level</label>
+                      <label class="form-check-label" for="level-a2" data-i18n-catalog="level|A.2 Level">A.2 Level</label>
                     </div>
                   </div>
                   <div class="filter-group">
-                    <h3>Subject</h3>
+                    <h3 data-i18n="store.subject">Subject</h3>
                     <div class="form-check">
                       <input class="form-check-input" type="checkbox" name="subject" id="subject-physics" value="Physics">
-                      <label class="form-check-label" for="subject-physics">Physics</label>
+                      <label class="form-check-label" for="subject-physics" data-i18n-catalog="subject|Physics">Physics</label>
                     </div>
                     <div class="form-check">
                       <input class="form-check-input" type="checkbox" name="subject" id="subject-biology" value="Biology">
-                      <label class="form-check-label" for="subject-biology">Biology</label>
+                      <label class="form-check-label" for="subject-biology" data-i18n-catalog="subject|Biology">Biology</label>
                     </div>
                     <div class="form-check">
                       <input class="form-check-input" type="checkbox" name="subject" id="subject-chemistry" value="Chemistry">
-                      <label class="form-check-label" for="subject-chemistry">Chemistry</label>
+                      <label class="form-check-label" for="subject-chemistry" data-i18n-catalog="subject|Chemistry">Chemistry</label>
                     </div>
                     <div class="form-check">
                       <input class="form-check-input" type="checkbox" name="subject" id="subject-geography" value="Geography">
-                      <label class="form-check-label" for="subject-geography">Geography</label>
+                      <label class="form-check-label" for="subject-geography" data-i18n-catalog="subject|Geography">Geography</label>
                     </div>
                   </div>
                   <div class="filter-group">
-                    <h3>Curriculum</h3>
+                    <h3 data-i18n="store.curriculum">Curriculum</h3>
                     <div class="form-check">
                       <input class="form-check-input" type="checkbox" name="curriculum" id="curriculum-cambridge" value="Cambridge">
-                      <label class="form-check-label" for="curriculum-cambridge">Cambridge</label>
+                      <label class="form-check-label" for="curriculum-cambridge" data-i18n-catalog="curriculum|Cambridge">Cambridge</label>
                     </div>
                     <div class="form-check">
                       <input class="form-check-input" type="checkbox" name="curriculum" id="curriculum-edexcel" value="Edexcel">
-                      <label class="form-check-label" for="curriculum-edexcel">Edexcel</label>
+                      <label class="form-check-label" for="curriculum-edexcel" data-i18n-catalog="curriculum|Edexcel">Edexcel</label>
                     </div>
                     <div class="form-check">
                       <input class="form-check-input" type="checkbox" name="curriculum" id="curriculum-oxford" value="Oxford AQA">
-                      <label class="form-check-label" for="curriculum-oxford">Oxford AQA</label>
+                      <label class="form-check-label" for="curriculum-oxford" data-i18n-catalog="curriculum|Oxford AQA">Oxford AQA</label>
                     </div>
                     <div class="form-check">
                       <input class="form-check-input" type="checkbox" name="curriculum" id="curriculum-sat" value="SAT">
-                      <label class="form-check-label" for="curriculum-sat">SAT</label>
+                      <label class="form-check-label" for="curriculum-sat" data-i18n-catalog="curriculum|SAT">SAT</label>
                     </div>
                     <div class="form-check">
                       <input class="form-check-input" type="checkbox" name="curriculum" id="curriculum-ielts" value="IELTS">
-                      <label class="form-check-label" for="curriculum-ielts">IELTS</label>
+                      <label class="form-check-label" for="curriculum-ielts" data-i18n-catalog="curriculum|IELTS">IELTS</label>
                     </div>
                   </div>
                   <div class="filter-group">
-                    <h3>Category</h3>
+                    <h3 data-i18n="store.category">Category</h3>
                     <div class="form-check">
                       <input class="form-check-input" type="checkbox" name="category" id="category-papers" value="Past Papers">
-                      <label class="form-check-label" for="category-papers">Past Papers</label>
+                      <label class="form-check-label" for="category-papers" data-i18n-catalog="category|Past Papers">Past Papers</label>
                     </div>
                     <div class="form-check">
                       <input class="form-check-input" type="checkbox" name="category" id="category-mark" value="Mark Scheme">
-                      <label class="form-check-label" for="category-mark">Mark Scheme</label>
+                      <label class="form-check-label" for="category-mark" data-i18n-catalog="category|Mark Scheme">Mark Scheme</label>
                     </div>
                     <div class="form-check">
                       <input class="form-check-input" type="checkbox" name="category" id="category-classified" value="Classified">
-                      <label class="form-check-label" for="category-classified">Classified</label>
+                      <label class="form-check-label" for="category-classified" data-i18n-catalog="category|Classified">Classified</label>
                     </div>
                     <div class="form-check">
                       <input class="form-check-input" type="checkbox" name="category" id="category-notes" value="Notes">
-                      <label class="form-check-label" for="category-notes">Notes</label>
+                      <label class="form-check-label" for="category-notes" data-i18n-catalog="category|Notes">Notes</label>
                     </div>
                     <div class="form-check">
                       <input class="form-check-input" type="checkbox" name="category" id="category-answers" value="Answers">
-                      <label class="form-check-label" for="category-answers">Answers</label>
+                      <label class="form-check-label" for="category-answers" data-i18n-catalog="category|Answers">Answers</label>
                     </div>
                   </div>
                   <div class="filter-group" id="teacher-filters"></div>
                   <div class="filter-group" id="variant-filters"></div>
                   <div class="filter-group">
-                    <h3>Price range</h3>
-                    <label class="form-label" for="price-min">Minimum</label>
+                    <h3 data-i18n="store.priceRange">Price range</h3>
+                    <label class="form-label" for="price-min" data-i18n="store.min">Minimum</label>
                     <input type="range" id="price-min">
-                    <label class="form-label mt-2" for="price-max">Maximum</label>
+                    <label class="form-label mt-2" for="price-max" data-i18n="store.max">Maximum</label>
                     <input type="range" id="price-max">
                     <div class="price-readout mt-2">
                       <span id="price-min-label"></span>
                       <span id="price-max-label"></span>
                     </div>
                   </div>
-                  <button type="button" class="btn btn-primary w-100 d-lg-none mt-3" data-bs-dismiss="offcanvas">Show results</button>
+                  <button type="button" class="btn btn-primary w-100 d-lg-none mt-3" data-bs-dismiss="offcanvas" data-i18n="store.showResults">Show results</button>
                 </form>
               </div>
             </div>
@@ -184,15 +211,15 @@
 
           <div class="col-lg-9">
             <div class="toolbar">
-              <p id="results-count" class="mb-0 fw-bold" aria-live="polite">Loading the shelf…</p>
+              <p id="results-count" class="mb-0 fw-bold" aria-live="polite" data-i18n="store.loading">Loading the shelf…</p>
               <div class="d-flex flex-wrap gap-2 align-items-center">
-                <label class="visually-hidden" for="store-query">Search within the store</label>
-                <input class="form-control" id="store-query" type="search" placeholder="Search within results" autocomplete="off">
-                <label class="visually-hidden" for="sort-select">Sort products</label>
+                <label class="visually-hidden" for="store-query" data-i18n="store.searchWithinLabel">Search within the store</label>
+                <input class="form-control" id="store-query" type="search" placeholder="Search within results" data-i18n-attr="placeholder:store.searchWithin" autocomplete="off">
+                <label class="visually-hidden" for="sort-select" data-i18n="store.sortLabel">Sort products</label>
                 <select id="sort-select" class="form-select">
-                  <option value="newest">Newest</option>
-                  <option value="price-asc">Price: low to high</option>
-                  <option value="price-desc">Price: high to low</option>
+                  <option value="newest" data-i18n="store.sortNewest">Newest</option>
+                  <option value="price-asc" data-i18n="store.sortLow">Price: low to high</option>
+                  <option value="price-desc" data-i18n="store.sortHigh">Price: high to low</option>
                 </select>
               </div>
             </div>
@@ -200,12 +227,12 @@
             <div id="product-grid" class="row g-4"></div>
             <div id="store-empty" class="empty-state" hidden>
               <i class="bi bi-journal-x" aria-hidden="true"></i>
-              <h2 class="h4">No books match these filters</h2>
-              <p>Remove a badge or clear the shelf and start again.</p>
-              <button type="button" class="btn btn-primary mt-3 js-clear-filters">Clear all filters</button>
+              <h2 class="h4" data-i18n="store.emptyTitle">No books match these filters</h2>
+              <p data-i18n="store.emptyBody">Remove a badge or clear the shelf and start again.</p>
+              <button type="button" class="btn btn-primary mt-3 js-clear-filters" data-i18n="store.clearFilters">Clear all filters</button>
             </div>
             <div class="text-center mt-4">
-              <button type="button" class="btn btn-outline-primary" id="load-more" hidden>Load more</button>
+              <button type="button" class="btn btn-outline-primary" id="load-more" hidden data-i18n="store.loadMore">Load more</button>
             </div>
           </div>
         </div>
@@ -217,43 +244,42 @@
         <div class="row g-4">
           <div class="col-lg-5">
             <a class="footer-brand" href="index.html">
-              <i class="bi bi-star-fill brand-star" aria-hidden="true"></i>
-              <span>New Star</span>
+              <img class="brand-logo" src="images/logo.png" alt="New Star" data-i18n-attr="alt:brand.name" width="425" height="338">
             </a>
-            <p class="mt-2">Your trusted source for school books &amp; teachers' notes.</p>
-            <p class="mt-3">Join the New Star list for new notes and past-paper drops. <a href="index.html#newsletter">Newsletter</a></p>
+            <p class="mt-2" data-i18n="footer.tagline">Your trusted source for school books &amp; teachers' notes.</p>
+            <p class="mt-3" data-i18n-html="footer.newsletter">Join the New Star list for new notes and past-paper drops. <a href="index.html#newsletter">Newsletter</a></p>
           </div>
           <div class="col-6 col-lg-3">
-            <h2>Explore</h2>
+            <h2 data-i18n="footer.explore">Explore</h2>
             <ul class="footer-links">
-              <li><a href="index.html">Home</a></li>
-              <li><a href="store.html">Store</a></li>
-              <li><a href="contact.html">Contact</a></li>
-              <li><a href="checkout.html">Checkout</a></li>
+              <li><a href="index.html" data-i18n="nav.home">Home</a></li>
+              <li><a href="store.html" data-i18n="nav.store">Store</a></li>
+              <li><a href="contact.html" data-i18n="nav.contact">Contact</a></li>
+              <li><a href="checkout.html" data-i18n="nav.checkout">Checkout</a></li>
             </ul>
           </div>
           <div class="col-6 col-lg-4">
-            <h2>Follow</h2>
+            <h2 data-i18n="footer.follow">Follow</h2>
             <div class="social-row">
-              <a href="https://facebook.com" aria-label="New Star on Facebook" target="_blank" rel="noopener noreferrer"><i class="bi bi-facebook" aria-hidden="true"></i></a>
-              <a href="https://instagram.com" aria-label="New Star on Instagram" target="_blank" rel="noopener noreferrer"><i class="bi bi-instagram" aria-hidden="true"></i></a>
-              <a href="https://youtube.com" aria-label="New Star on YouTube" target="_blank" rel="noopener noreferrer"><i class="bi bi-youtube" aria-hidden="true"></i></a>
-              <a href="https://wa.me/201005550192" aria-label="New Star on WhatsApp" target="_blank" rel="noopener noreferrer"><i class="bi bi-whatsapp" aria-hidden="true"></i></a>
+              <a href="https://facebook.com" data-i18n-attr="aria-label:social.facebook" target="_blank" rel="noopener noreferrer"><i class="bi bi-facebook" aria-hidden="true"></i></a>
+              <a href="https://instagram.com" data-i18n-attr="aria-label:social.instagram" target="_blank" rel="noopener noreferrer"><i class="bi bi-instagram" aria-hidden="true"></i></a>
+              <a href="https://youtube.com" data-i18n-attr="aria-label:social.youtube" target="_blank" rel="noopener noreferrer"><i class="bi bi-youtube" aria-hidden="true"></i></a>
+              <a href="https://wa.me/201005550192" data-i18n-attr="aria-label:social.whatsapp" target="_blank" rel="noopener noreferrer"><i class="bi bi-whatsapp" aria-hidden="true"></i></a>
             </div>
           </div>
         </div>
-        <p class="copyright">© 2026 New Star. All rights reserved.</p>
+        <p class="copyright" data-i18n="footer.copyright">© 2026 New Star. All rights reserved.</p>
       </div>
     </footer>
   </div>
 
   <div class="offcanvas offcanvas-end" tabindex="-1" id="wishlistOffcanvas" aria-labelledby="wishlistOffcanvasLabel">
     <div class="offcanvas-header">
-      <h2 class="offcanvas-title h5" id="wishlistOffcanvasLabel">Wishlist</h2>
-      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close wishlist"></button>
+      <h2 class="offcanvas-title h5" id="wishlistOffcanvasLabel" data-i18n="wishlist.title">Wishlist</h2>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-i18n-attr="aria-label:a11y.closeWishlist"></button>
     </div>
     <div class="offcanvas-body">
-      <p id="wishlist-empty">Your wishlist is empty. Tap the heart on any New Star book to save it.</p>
+      <p id="wishlist-empty" data-i18n="wishlist.empty">Your wishlist is empty. Tap the heart on any New Star book to save it.</p>
       <div id="wishlist-list" aria-live="polite"></div>
     </div>
   </div>
@@ -262,8 +288,8 @@
     <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <h2 class="modal-title h5" id="quick-view-title">Book</h2>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close quick view"></button>
+          <h2 class="modal-title h5" id="quick-view-title" data-i18n="wishlist.book">Book</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" data-i18n-attr="aria-label:a11y.closeQuickView"></button>
         </div>
         <div class="modal-body">
           <div class="quick-view-layout">
@@ -278,9 +304,9 @@
                 <span class="old-price" id="quick-view-old" hidden></span>
               </div>
               <div class="d-flex flex-wrap gap-2 mt-2">
-                <button type="button" class="btn btn-primary js-add-cart" id="quick-view-cart">Add to Cart</button>
-                <button type="button" class="btn btn-outline-primary js-wishlist" id="quick-view-wish" aria-pressed="false" aria-label="Add to wishlist">
-                  <i class="bi bi-heart" aria-hidden="true"></i> Wishlist
+                <button type="button" class="btn btn-primary js-add-cart" id="quick-view-cart" data-i18n="actions.addToCart">Add to Cart</button>
+                <button type="button" class="btn btn-outline-primary js-wishlist" id="quick-view-wish" aria-pressed="false" data-i18n-attr="aria-label:a11y.addToWishlist">
+                  <i class="bi bi-heart" aria-hidden="true"></i> <span data-i18n="actions.wishlist">Wishlist</span>
                 </button>
               </div>
             </div>
@@ -294,8 +320,8 @@
     <div id="site-toast" class="toast" role="status" aria-live="polite" aria-atomic="true">
       <div class="toast-header">
         <i class="bi bi-star-fill brand-star me-2" aria-hidden="true"></i>
-        <strong class="me-auto">New Star</strong>
-        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close notification"></button>
+        <strong class="me-auto" data-i18n="brand.name">New Star</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="toast" data-i18n-attr="aria-label:a11y.closeNotification"></button>
       </div>
       <div class="toast-body" id="site-toast-body"></div>
     </div>
@@ -307,6 +333,9 @@
 
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="i18n/en.js"></script>
+  <script src="i18n/ar.js"></script>
+  <script src="js/i18n.js"></script>
   <script src="js/products.js"></script>
   <script src="js/main.js"></script>
   <script src="js/store.js"></script>

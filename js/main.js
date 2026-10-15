@@ -20,9 +20,24 @@
     return null;
   }
 
+  function tr(key, vars) {
+    return window.NewStarI18n ? window.NewStarI18n.t(key, vars) : key;
+  }
+
+  function catalogLabel(group, value) {
+    return window.NewStarI18n ? window.NewStarI18n.catalog(group, value) : value;
+  }
+
+  function productField(product, field) {
+    if (!product) return "";
+    return window.NewStarI18n ? window.NewStarI18n.productText(product, field) : product[field] || "";
+  }
+
   function formatPrice(amount) {
     var value = Math.max(0, Math.round(Number(amount) || 0));
-    return "EGP " + value.toLocaleString("en-US");
+    var formatted = value.toLocaleString("en-US");
+    if (window.NewStarI18n) return window.NewStarI18n.t("price.format", { amount: formatted });
+    return "EGP " + formatted;
   }
 
   /* ---------- Cart and wishlist storage ---------- */
@@ -95,7 +110,7 @@
     });
     if (!found) cart.push({ id: String(product.id), qty: amount });
     writeCart(cart);
-    showToast(product.title + " added to your cart.");
+    showToast(tr("toast.addedCart", { title: productField(product, "title") }));
   }
 
   function toggleWishlist(id) {
@@ -108,11 +123,11 @@
     if (index === -1) {
       list.push(key);
       active = true;
-      showToast(product.title + " saved to your wishlist.");
+      showToast(tr("toast.savedWish", { title: productField(product, "title") }));
     } else {
       list.splice(index, 1);
       active = false;
-      showToast(product.title + " removed from your wishlist.");
+      showToast(tr("toast.removedWish", { title: productField(product, "title") }));
     }
     writeWishlist(list);
     return active;
@@ -133,9 +148,9 @@
       var id = $(this).attr("data-id");
       var on = ids.indexOf(String(id)) !== -1;
       var product = getProduct(id);
-      var title = product ? product.title : "this book";
+      var title = product ? productField(product, "title") : tr("wishlist.book");
       $(this).attr("aria-pressed", on ? "true" : "false");
-      $(this).attr("aria-label", (on ? "Remove " : "Add ") + title + (on ? " from wishlist" : " to wishlist"));
+      $(this).attr("aria-label", tr(on ? "a11y.removeWishNamed" : "a11y.addWishNamed", { title: title }));
       $(this).find("i").attr("class", on ? "bi bi-heart-fill" : "bi bi-heart");
     });
   }
@@ -153,13 +168,21 @@
       html += '<i class="bi ' + icon + '" aria-hidden="true"></i>';
     }
     return (
-      '<span class="rating" aria-label="Rated ' +
-      value.toFixed(1) +
-      ' out of 5">' +
+      '<span class="rating" aria-label="' +
+      escapeHtml(tr("a11y.rated", { rating: value.toFixed(1) })) +
+      '">' +
       html +
       '<span class="rating-value">' +
       value.toFixed(1) +
       "</span></span>"
+    );
+  }
+
+  /* Keep exam codes and number ranges (O Level, 2020–2024) in order inside Arabic. */
+  function mixedHtml(value) {
+    return escapeHtml(value).replace(
+      /([A-Za-z0-9]+(?:[ \u00A0.\/\u2013\u2014-]+[A-Za-z0-9]+)*)/g,
+      '<bdi dir="ltr">$1</bdi>'
     );
   }
 
@@ -174,7 +197,7 @@
       .sort(function (a, b) {
         return b.length - a.length;
       });
-    if (!terms.length) return escapeHtml(source);
+    if (!terms.length) return mixedHtml(source);
     var pattern = terms
       .map(function (term) {
         return term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -184,12 +207,12 @@
     var html = "";
     var last = 0;
     source.replace(re, function (match, offset) {
-      html += escapeHtml(source.slice(last, offset));
-      html += "<mark>" + escapeHtml(match) + "</mark>";
+      html += mixedHtml(source.slice(last, offset));
+      html += "<mark>" + mixedHtml(match) + "</mark>";
       last = offset + match.length;
       return match;
     });
-    html += escapeHtml(source.slice(last));
+    html += mixedHtml(source.slice(last));
     return html;
   }
 
@@ -207,6 +230,8 @@
         var on = wished.indexOf(String(product.id)) !== -1;
         var sale = typeof product.oldPrice === "number" && product.oldPrice > product.price;
         var query = settings.highlight || "";
+        var title = productField(product, "title");
+        var wishLabel = tr(on ? "a11y.removeWishNamed" : "a11y.addWishNamed", { title: title });
         return (
           '<div class="' + colClass + '">' +
           '<article class="product-card" data-id="' +
@@ -216,40 +241,38 @@
           '<img src="' +
           escapeHtml(product.image) +
           '" alt="' +
-          escapeHtml(product.title) +
+          escapeHtml(title) +
           '" width="640" height="480" loading="lazy">' +
           '<span class="badge product-card__badge">' +
-          escapeHtml(product.category) +
+          escapeHtml(catalogLabel("category", product.category)) +
           "</span>" +
           '<button type="button" class="wishlist-btn js-wishlist" data-id="' +
           escapeHtml(product.id) +
           '" aria-pressed="' +
           (on ? "true" : "false") +
           '" aria-label="' +
-          (on ? "Remove " : "Add ") +
-          escapeHtml(product.title) +
-          (on ? " from wishlist" : " to wishlist") +
+          escapeHtml(wishLabel) +
           '"><i class="bi ' +
           (on ? "bi-heart-fill" : "bi-heart") +
           '" aria-hidden="true"></i></button>' +
           "</div>" +
           '<div class="card-body">' +
           '<p class="product-meta">' +
-          escapeHtml(product.level) +
+          mixedHtml(catalogLabel("level", product.level)) +
           " · " +
-          highlightText(product.subject, query) +
+          highlightText(catalogLabel("subject", product.subject), query) +
           "</p>" +
           '<h3 class="product-title"><button type="button" class="product-title-btn js-quick-view" data-id="' +
           escapeHtml(product.id) +
           '">' +
-          highlightText(product.title, query) +
+          highlightText(title, query) +
           "</button></h3>" +
           '<p class="product-sub">' +
-          highlightText(product.teacher, query) +
+          highlightText(catalogLabel("teacher", product.teacher), query) +
           " · " +
-          escapeHtml(product.variant) +
+          mixedHtml(catalogLabel("variant", product.variant)) +
           " · " +
-          escapeHtml(product.curriculum) +
+          mixedHtml(catalogLabel("curriculum", product.curriculum)) +
           "</p>" +
           starsMarkup(product.rating) +
           '<div class="product-price"><span class="price">' +
@@ -260,12 +283,12 @@
           '<div class="product-actions">' +
           '<button type="button" class="btn btn-primary js-add-cart" data-id="' +
           escapeHtml(product.id) +
-          '">Add to Cart</button>' +
+          '">' + escapeHtml(tr("actions.addToCart")) + '</button>' +
           '<button type="button" class="btn btn-outline-primary js-quick-view" data-id="' +
           escapeHtml(product.id) +
-          '" aria-label="Quick view: ' +
-          escapeHtml(product.title) +
-          '">Quick view</button>' +
+          '" aria-label="' +
+          escapeHtml(tr("a11y.quickViewNamed", { title: title })) +
+          '">' + escapeHtml(tr("actions.quickView")) + '</button>' +
           "</div></div></article></div>"
         );
       })
@@ -288,25 +311,26 @@
         .map(function (id) {
           var product = getProduct(id);
           if (!product) return "";
+          var title = productField(product, "title");
           return (
             '<article class="wish-row">' +
             '<img src="' +
             escapeHtml(product.image) +
             '" alt="" width="72" height="54">' +
             "<div><h3 class=\"h6 mb-1\">" +
-            escapeHtml(product.title) +
+            mixedHtml(title) +
             "</h3><p class=\"price\">" +
             formatPrice(product.price) +
             "</p>" +
             '<div class="wish-actions">' +
             '<button type="button" class="btn btn-primary btn-sm js-wish-to-cart" data-id="' +
             escapeHtml(product.id) +
-            '">Move to cart</button>' +
+            '">' + escapeHtml(tr("actions.moveToCart")) + '</button>' +
             '<button type="button" class="btn btn-outline-primary btn-sm js-wish-remove" data-id="' +
             escapeHtml(product.id) +
-            '" aria-label="Remove ' +
-            escapeHtml(product.title) +
-            ' from wishlist">Remove</button>' +
+            '" aria-label="' +
+            escapeHtml(tr("a11y.removeWishNamed", { title: title })) +
+            '">' + escapeHtml(tr("actions.remove")) + '</button>' +
             "</div></div></article>"
           );
         })
@@ -322,21 +346,22 @@
     if (!product || !modalEl || !window.bootstrap) return;
     var wished = readWishlist().indexOf(String(product.id)) !== -1;
     var sale = typeof product.oldPrice === "number" && product.oldPrice > product.price;
-    $("#quick-view-img").attr({ src: product.image, alt: product.title });
-    $("#quick-view-kicker").text(product.level + " · " + product.subject + " · " + product.curriculum);
-    $("#quick-view-title").text(product.title);
-    $("#quick-view-meta").text(product.teacher + " · " + product.variant + " · " + product.category);
+    var title = productField(product, "title");
+    $("#quick-view-img").attr({ src: product.image, alt: title });
+    $("#quick-view-kicker").html(mixedHtml(catalogLabel("level", product.level) + " · " + catalogLabel("subject", product.subject) + " · " + catalogLabel("curriculum", product.curriculum)));
+    $("#quick-view-title").html(mixedHtml(title));
+    $("#quick-view-meta").html(mixedHtml(catalogLabel("teacher", product.teacher) + " · " + catalogLabel("variant", product.variant) + " · " + catalogLabel("category", product.category)));
     $("#quick-view-rating").html(starsMarkup(product.rating));
-    $("#quick-view-desc").text(product.description);
+    $("#quick-view-desc").html(mixedHtml(productField(product, "description")));
     $("#quick-view-price").text(formatPrice(product.price));
     $("#quick-view-old").text(sale ? formatPrice(product.oldPrice) : "").prop("hidden", !sale);
     $("#quick-view-cart")
       .attr("data-id", product.id)
-      .text("Add to Cart");
+      .text(tr("actions.addToCart"));
     $("#quick-view-wish")
       .attr("data-id", product.id)
       .attr("aria-pressed", wished ? "true" : "false")
-      .attr("aria-label", (wished ? "Remove " : "Add ") + product.title + (wished ? " from wishlist" : " to wishlist"))
+      .attr("aria-label", tr(wished ? "a11y.removeWishNamed" : "a11y.addWishNamed", { title: title }))
       .find("i")
       .attr("class", wished ? "bi bi-heart-fill" : "bi bi-heart");
     window.bootstrap.Modal.getOrCreateInstance(modalEl).show();
@@ -405,15 +430,15 @@
       clearInvalid($name);
       clearInvalid($email);
       if ($name.val().trim().length < 2) {
-        setInvalid($name, "Please enter your name.");
+        setInvalid($name, tr("errors.name"));
         valid = false;
       }
       if (!isEmail($email.val())) {
-        setInvalid($email, "Enter a valid email address.");
+        setInvalid($email, tr("errors.email"));
         valid = false;
       }
       if (!valid) return;
-      showToast("Thanks, " + $name.val().trim() + ". You are on the New Star list.");
+      showToast(tr("toast.newsletterThanks", { name: $name.val().trim() }));
       this.reset();
     });
   }
@@ -425,19 +450,19 @@
       event.preventDefault();
       var fields = [
         ["#contact-name", function ($field) {
-          return $field.val().trim().length >= 2 ? "" : "Please enter your name.";
+          return $field.val().trim().length >= 2 ? "" : tr("errors.name");
         }],
         ["#contact-email", function ($field) {
-          return isEmail($field.val()) ? "" : "Enter a valid email address.";
+          return isEmail($field.val()) ? "" : tr("errors.email");
         }],
         ["#contact-phone", function ($field) {
-          return isPhone($field.val()) ? "" : "Enter a phone or WhatsApp number (8–15 digits).";
+          return isPhone($field.val()) ? "" : tr("errors.phone");
         }],
         ["#contact-subject", function ($field) {
-          return $field.val().trim().length >= 3 ? "" : "Add a short subject.";
+          return $field.val().trim().length >= 3 ? "" : tr("errors.subject");
         }],
         ["#contact-message", function ($field) {
-          return $field.val().trim().length >= 10 ? "" : "Write at least 10 characters so we know how to help.";
+          return $field.val().trim().length >= 10 ? "" : tr("errors.message");
         }]
       ];
       var valid = true;
@@ -452,7 +477,7 @@
       });
       if (!valid) return;
       var name = $("#contact-name").val().trim();
-      showToast("Thanks, " + name + ". New Star received your message. This demo does not send it anywhere.");
+      showToast(tr("toast.contactThanks", { name: name }));
       $form[0].reset();
     });
   }
@@ -478,7 +503,7 @@
         })
       );
       var product = getProduct(id);
-      if (product) showToast(product.title + " removed from your wishlist.");
+      if (product) showToast(tr("toast.removedWish", { title: productField(product, "title") }));
     });
 
     $(document).on("click", ".js-wish-to-cart", function () {
@@ -515,6 +540,7 @@
     isEmail: isEmail,
     isPhone: isPhone,
     highlightText: highlightText,
+    mixedHtml: mixedHtml,
     starsMarkup: starsMarkup
   };
 
@@ -528,7 +554,7 @@
   window.readWishlist = readWishlist;
   window.writeWishlist = writeWishlist;
 
-  $(function () {
+  function boot() {
     updateCounters();
     renderWishlist();
     syncWishlistButtons();
@@ -536,5 +562,19 @@
     initHome();
     initNewsletter();
     initContact();
+  }
+
+  $(function () {
+    var start = window.NewStarI18n ? window.NewStarI18n.ready.then(boot) : boot();
+    if (window.NewStarI18n) {
+      $(document).on("newstar:lang", function () {
+        renderWishlist();
+        syncWishlistButtons();
+        initHome();
+        var quickId = $("#quick-view-cart").attr("data-id");
+        if (quickId && $("#quickViewModal").hasClass("show")) openQuickView(quickId);
+      });
+    }
+    return start;
   });
 })(jQuery);

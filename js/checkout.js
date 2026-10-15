@@ -4,9 +4,10 @@
   var promo = null;
 
   var PROMOS = {
-    STAR10: { type: "percent", amount: 10, label: "STAR10 · 10% off" },
-    NEWSTAR50: { type: "flat", amount: 50, label: "NEWSTAR50 · EGP 50 off" }
+    STAR10: { type: "percent", amount: 10, labelKey: "checkout.promoStar10" },
+    NEWSTAR50: { type: "flat", amount: 50, labelKey: "checkout.promoNewstar50" }
   };
+  var lastOrder = null;
 
   function cartLines() {
     return NewStar.readCart()
@@ -85,50 +86,50 @@
             NewStar.escapeHtml(product.image) +
             '" alt="" width="64" height="48">' +
             "<div><div class=\"fw-bold\">" +
-            NewStar.escapeHtml(product.title) +
+            NewStar.mixedHtml(window.NewStarI18n.productText(product, "title")) +
             "</div><div class=\"text-secondary small\">" +
-            NewStar.escapeHtml(product.level) +
+            NewStar.mixedHtml(window.NewStarI18n.catalog("level", product.level)) +
             " · " +
-            NewStar.escapeHtml(product.subject) +
+            NewStar.mixedHtml(window.NewStarI18n.catalog("subject", product.subject)) +
             "</div></div></div></td>" +
-            "<td>" +
-            NewStar.formatPrice(product.price) +
-            "</td>" +
+            "<td><span class=\"money\" dir=\"ltr\">" +
+            NewStar.escapeHtml(NewStar.formatPrice(product.price)) +
+            "</span></td>" +
             "<td><div class=\"qty-control\">" +
             '<button type="button" class="js-qty" data-id="' +
             NewStar.escapeHtml(product.id) +
-            '" data-dir="-1" aria-label="Decrease quantity for ' +
-            NewStar.escapeHtml(product.title) +
+            '" data-dir="-1" aria-label="' +
+            NewStar.escapeHtml(window.NewStarI18n.t("a11y.decreaseQty", { title: window.NewStarI18n.productText(product, "title") })) +
             '">−</button>' +
             '<input class="js-qty-input" type="number" min="1" max="99" value="' +
             line.qty +
             '" data-id="' +
             NewStar.escapeHtml(product.id) +
-            '" aria-label="Quantity for ' +
-            NewStar.escapeHtml(product.title) +
+            '" aria-label="' +
+            NewStar.escapeHtml(window.NewStarI18n.t("a11y.quantityFor", { title: window.NewStarI18n.productText(product, "title") })) +
             '">' +
             '<button type="button" class="js-qty" data-id="' +
             NewStar.escapeHtml(product.id) +
-            '" data-dir="1" aria-label="Increase quantity for ' +
-            NewStar.escapeHtml(product.title) +
+            '" data-dir="1" aria-label="' +
+            NewStar.escapeHtml(window.NewStarI18n.t("a11y.increaseQty", { title: window.NewStarI18n.productText(product, "title") })) +
             '">+</button></div></td>' +
-            "<td>" +
-            NewStar.formatPrice(line.line) +
-            "</td>" +
+            "<td><span class=\"money\" dir=\"ltr\">" +
+            NewStar.escapeHtml(NewStar.formatPrice(line.line)) +
+            "</span></td>" +
             "<td><button type=\"button\" class=\"btn btn-outline-primary btn-sm js-remove-line\" data-id=\"" +
             NewStar.escapeHtml(product.id) +
-            '" aria-label="Remove ' +
-            NewStar.escapeHtml(product.title) +
-            ' from cart">Remove</button></td></tr>'
+            '" aria-label="' +
+            NewStar.escapeHtml(window.NewStarI18n.t("a11y.removeFromCart", { title: window.NewStarI18n.productText(product, "title") })) +
+            '">' + NewStar.escapeHtml(window.NewStarI18n.t("actions.remove")) + "</button></td></tr>"
           );
         })
         .join("")
     );
 
     $("#sum-subtotal").text(NewStar.formatPrice(data.subtotal));
-    $("#sum-discount").text(data.discount ? "− " + NewStar.formatPrice(data.discount) : NewStar.formatPrice(0));
+    $("#sum-discount").text(data.discount ? window.NewStarI18n.t("checkout.minus", { amount: NewStar.formatPrice(data.discount) }) : NewStar.formatPrice(0));
     $("#discount-row").prop("hidden", data.discount === 0);
-    $("#sum-shipping").text(data.shipping ? NewStar.formatPrice(data.shipping) : "Free");
+    $("#sum-shipping").text(data.shipping ? NewStar.formatPrice(data.shipping) : window.NewStarI18n.t("checkout.free"));
     $("#sum-total").text(NewStar.formatPrice(data.total));
   }
 
@@ -188,23 +189,23 @@
     $("#payment-error").text("").prop("hidden", true);
 
     if ($name.val().trim().length < 3) {
-      setField($name, "Enter the full name for the order.");
+      setField($name, window.NewStarI18n.t("errors.fullName"));
       valid = false;
     }
     if (!NewStar.isPhone($phone.val())) {
-      setField($phone, "Enter a phone number with 8–15 digits.");
+      setField($phone, window.NewStarI18n.t("errors.phoneDigits"));
       valid = false;
     }
     if (!NewStar.isEmail($email.val())) {
-      setField($email, "Enter a valid email address.");
+      setField($email, window.NewStarI18n.t("errors.email"));
       valid = false;
     }
     if (!$gov.val()) {
-      setField($gov, "Choose a governorate.");
+      setField($gov, window.NewStarI18n.t("errors.governorate"));
       valid = false;
     }
     if (deliveryMethod() !== "digital" && $address.val().trim().length < 6) {
-      setField($address, "Add a street address for delivery or pickup.");
+      setField($address, window.NewStarI18n.t("errors.address"));
       valid = false;
     }
 
@@ -214,20 +215,20 @@
       var expiry = $("#card-expiry").val();
       var cvv = $("#card-cvv").val();
       if (!luhn(number)) {
-        setField($("#card-number"), "Enter a valid card number. The demo accepts test numbers such as 4242 4242 4242 4242.");
+        setField($("#card-number"), window.NewStarI18n.t("errors.card"));
         valid = false;
       }
       if (!expiryValid(expiry)) {
-        setField($("#card-expiry"), "Use a future expiry in MM/YY format.");
+        setField($("#card-expiry"), window.NewStarI18n.t("errors.expiry"));
         valid = false;
       }
       if (!/^\d{3,4}$/.test(cvv)) {
-        setField($("#card-cvv"), "Enter a 3 or 4 digit CVV.");
+        setField($("#card-cvv"), window.NewStarI18n.t("errors.cvv"));
         valid = false;
       }
     }
     if (method === "wallet" && !NewStar.isPhone($("#wallet-phone").val())) {
-      setField($("#wallet-phone"), "Enter the Vodafone Cash or InstaPay phone number.");
+      setField($("#wallet-phone"), window.NewStarI18n.t("errors.walletPhone"));
       valid = false;
     }
     return valid;
@@ -244,9 +245,8 @@
       if ($invalid.length) $invalid.trigger("focus");
       return;
     }
-    var name = $("#cust-name").val().trim();
-    $("#order-name").text(name);
-    $("#order-number").text(orderNumber());
+    lastOrder = { name: $("#cust-name").val().trim(), number: orderNumber() };
+    renderConfirmation();
     NewStar.writeCart([]);
     renderSummary();
     var modalEl = document.getElementById("orderModal");
@@ -255,10 +255,31 @@
     }
   }
 
+  function renderConfirmation() {
+    if (!lastOrder) return;
+    $("#order-modal-title").html(window.NewStarI18n.tHtml("checkout.thanks", { name: lastOrder.name }));
+    $("#order-modal-body").html(window.NewStarI18n.tHtml("checkout.confirm", { number: lastOrder.number }));
+  }
+
+  function paintPromo() {
+    if (!promo) return;
+    $("#promo-applied").prop("hidden", false).text(
+      window.NewStarI18n.t("checkout.promoApplied", { label: window.NewStarI18n.t(promo.labelKey) })
+    );
+  }
+
   $(function () {
-    if (!$("#checkout-form").length || !window.NewStar) return;
-    renderSummary();
-    showPaymentPanel();
+    if (!$("#checkout-form").length || !window.NewStar || !window.NewStarI18n) return;
+    window.NewStarI18n.ready.then(function () {
+      renderSummary();
+      showPaymentPanel();
+    });
+    $(document).on("newstar:lang", function () {
+      if (!$("#checkout-form").length) return;
+      renderSummary();
+      paintPromo();
+      renderConfirmation();
+    });
 
     $(document).on("click", ".js-qty", function () {
       var id = $(this).attr("data-id");
@@ -300,19 +321,19 @@
       var code = $("#promo-code").val().trim().toUpperCase();
       var $feedback = $("#promo-feedback");
       if (!code) {
-        $feedback.text("Enter a promo code.").prop("hidden", false);
+        $feedback.text(window.NewStarI18n.t("errors.promoEmpty")).prop("hidden", false);
         return;
       }
       if (!PROMOS[code]) {
         promo = null;
-        $feedback.text("That code is not recognised. Try STAR10 or NEWSTAR50.").prop("hidden", false);
+        $feedback.text(window.NewStarI18n.t("errors.promoUnknown")).prop("hidden", false);
         $("#promo-applied").prop("hidden", true).text("");
         renderSummary();
         return;
       }
       promo = PROMOS[code];
       $feedback.prop("hidden", true).text("");
-      $("#promo-applied").prop("hidden", false).text(promo.label + " applied.");
+      paintPromo();
       renderSummary();
     });
 

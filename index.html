@@ -3,55 +3,82 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="New Star is your trusted source for school books and teachers' notes — past papers, mark schemes, and classified questions in Egypt.">
+  <meta name="description" content="New Star is your trusted source for school books and teachers' notes — past papers, mark schemes, and classified questions in Egypt." data-i18n-attr="content:meta.homeDescription">
   <meta name="theme-color" content="#0B3A6A">
-  <title>New Star | Home</title>
+  <title data-i18n="meta.homeTitle">New Star | Home</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="canonical" id="canonical-link" href="index.html">
+  <link rel="alternate" hreflang="en" id="hreflang-en" href="index.html?lang=en">
+  <link rel="alternate" hreflang="ar" id="hreflang-ar" href="index.html?lang=ar">
+  <link rel="alternate" hreflang="x-default" id="hreflang-default" href="index.html">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+  <script>
+    /* Language and direction before first paint. Arabic stays hidden until strings load. */
+    (function () {
+      var KEY = "newstar_lang";
+      var params = new URLSearchParams(window.location.search);
+      var fromUrl = params.get("lang");
+      var stored = null;
+      try { stored = localStorage.getItem(KEY); } catch (e) {}
+      var lang = fromUrl === "ar" || fromUrl === "en" ? fromUrl : (stored === "ar" || stored === "en" ? stored : ((navigator.language || "").toLowerCase().indexOf("ar") === 0 ? "ar" : "en"));
+      var root = document.documentElement;
+      root.lang = lang;
+      root.dir = lang === "ar" ? "rtl" : "ltr";
+      if (lang === "ar") root.classList.add("i18n-pending");
+      window.__NS_LANG = lang;
+      var css = lang === "ar"
+        ? "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css"
+        : "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css";
+      document.write('<link id="bootstrap-css" rel="stylesheet" href="' + css + '">');
+      setTimeout(function () { root.classList.remove("i18n-pending"); }, 4000);
+    })();
+  </script>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
   <link href="css/style.css" rel="stylesheet">
 </head>
 <body>
   <div class="page-shell">
-    <a class="skip-link" href="#main">Skip to content</a>
+    <a class="skip-link" href="#main" data-i18n="a11y.skip">Skip to content</a>
     <header class="site-header">
       <div class="announce-bar">
         <div class="container">
-          <p>Digital PDFs ready today · Printed books delivered across Egypt</p>
+          <p data-i18n="announce">Digital PDFs ready today · Printed books delivered across Egypt</p>
         </div>
       </div>
-      <nav class="navbar navbar-expand-lg sticky-top" aria-label="Primary">
+      <nav class="navbar navbar-expand-lg sticky-top" data-i18n-attr="aria-label:a11y.primaryNav">
         <div class="container">
           <a class="navbar-brand" href="index.html">
-            <i class="bi bi-star-fill brand-star" aria-hidden="true"></i>
-            <span>New Star</span>
+            <img class="brand-logo" src="images/logo.png" alt="New Star" data-i18n-attr="alt:brand.name" width="425" height="338">
           </a>
           <div class="nav-actions d-flex align-items-center gap-2 ms-auto ms-lg-0 order-lg-last">
-            <button type="button" class="icon-btn" data-bs-toggle="offcanvas" data-bs-target="#wishlistOffcanvas" aria-controls="wishlistOffcanvas" aria-label="Open wishlist">
+            <div class="lang-switch" role="group" data-i18n-attr="aria-label:a11y.language">
+              <button type="button" class="lang-switch__btn" data-set-lang="en" lang="en" hreflang="en" data-i18n-attr="aria-label:a11y.switchToEnglish" aria-pressed="true">EN</button>
+              <button type="button" class="lang-switch__btn" data-set-lang="ar" lang="ar" hreflang="ar" data-i18n-attr="aria-label:a11y.switchToArabic" aria-pressed="false">العربية</button>
+            </div>
+            <button type="button" class="icon-btn" data-bs-toggle="offcanvas" data-bs-target="#wishlistOffcanvas" aria-controls="wishlistOffcanvas" data-i18n-attr="aria-label:a11y.openWishlist">
               <i class="bi bi-heart" aria-hidden="true"></i>
               <span class="count-badge" id="wishlist-count">0</span>
             </button>
-            <a class="icon-btn" href="checkout.html" aria-label="Open cart">
+            <a class="icon-btn" href="checkout.html" data-i18n-attr="aria-label:a11y.openCart">
               <i class="bi bi-bag" aria-hidden="true"></i>
               <span class="count-badge" id="cart-count">0</span>
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" data-i18n-attr="aria-label:a11y.toggleNav">
               <span class="navbar-toggler-icon"></span>
             </button>
           </div>
           <div class="collapse navbar-collapse" id="mainNav">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item"><a class="nav-link active" aria-current="page" href="index.html">Home</a></li>
-              <li class="nav-item"><a class="nav-link" href="store.html">Store</a></li>
-              <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+              <li class="nav-item"><a class="nav-link active" aria-current="page" href="index.html" data-i18n="nav.home">Home</a></li>
+              <li class="nav-item"><a class="nav-link" href="store.html" data-i18n="nav.store">Store</a></li>
+              <li class="nav-item"><a class="nav-link" href="contact.html" data-i18n="nav.contact">Contact</a></li>
             </ul>
             <form class="nav-search d-flex" action="search.html" method="get" role="search">
-              <label class="visually-hidden" for="nav-q">Search the catalog</label>
-              <input class="form-control" id="nav-q" type="search" name="q" placeholder="Search the shelf" autocomplete="off">
-              <button class="btn btn-accent" type="submit" aria-label="Search"><i class="bi bi-search" aria-hidden="true"></i></button>
+              <label class="visually-hidden" for="nav-q" data-i18n="search.catalogLabel">Search the catalog</label>
+              <input class="form-control" id="nav-q" type="search" name="q" placeholder="Search the shelf" data-i18n-attr="placeholder:search.shelfPlaceholder" autocomplete="off">
+              <button class="btn btn-accent" type="submit" data-i18n-attr="aria-label:actions.search"><i class="bi bi-search" aria-hidden="true"></i></button>
             </form>
           </div>
         </div>
@@ -63,37 +90,37 @@
         <div class="container">
           <div class="row g-4 align-items-center">
             <div class="col-lg-7">
-              <p class="kicker">New Star</p>
-              <h1 class="display-title">School books and teachers' notes, ready for the exam year.</h1>
-              <p class="lede">Your trusted source for school books &amp; teachers' notes. Past papers, mark schemes, classified questions, and classroom notes from O.Level through A.2 Level.</p>
+              <p class="kicker" data-i18n="home.kicker">New Star</p>
+              <h1 class="display-title" data-i18n="home.title">School books and teachers' notes, ready for the exam year.</h1>
+              <p class="lede" data-i18n="home.lede">Your trusted source for school books &amp; teachers' notes. Past papers, mark schemes, classified questions, and classroom notes from O.Level through A.2 Level.</p>
               <div class="d-flex flex-wrap gap-2 mt-4">
-                <a class="btn btn-accent btn-lg" href="store.html">Shop Now</a>
-                <a class="btn btn-outline-light btn-lg" href="contact.html">Ask the desk</a>
+                <a class="btn btn-accent btn-lg" href="store.html" data-i18n="home.shopNow">Shop Now</a>
+                <a class="btn btn-outline-light btn-lg" href="contact.html" data-i18n="home.askDesk">Ask the desk</a>
               </div>
               <form class="hero-search" action="search.html" method="get" role="search">
-                <label class="visually-hidden" for="hero-q">Search books and notes</label>
-                <input class="form-control" id="hero-q" type="search" name="q" placeholder="Try Physics, Dr. Hana, or Past Papers" autocomplete="off">
-                <button class="btn btn-accent" type="submit">Search</button>
+                <label class="visually-hidden" for="hero-q" data-i18n="home.heroSearchLabel">Search books and notes</label>
+                <input class="form-control" id="hero-q" type="search" name="q" placeholder="Try Physics, Dr. Hana, or Past Papers" data-i18n-attr="placeholder:home.heroPlaceholder" autocomplete="off">
+                <button class="btn btn-accent" type="submit" data-i18n="actions.search">Search</button>
               </form>
               <div class="stat-row">
-                <div><strong id="stat-titles">31</strong><span>titles on the shelf</span></div>
-                <div><strong id="stat-teachers">6</strong><span>named teachers</span></div>
-                <div><strong>4</strong><span>subjects, print or PDF</span></div>
+                <div><strong id="stat-titles">31</strong><span data-i18n="home.statTitles">titles on the shelf</span></div>
+                <div><strong id="stat-teachers">6</strong><span data-i18n="home.statTeachers">named teachers</span></div>
+                <div><strong>4</strong><span data-i18n="home.statSubjects">subjects, print or PDF</span></div>
               </div>
             </div>
             <div class="col-lg-5">
               <div class="hero-panel" aria-hidden="true">
                 <div class="hero-sheet">
                   <i class="bi bi-journal-richtext"></i>
-                  <div><strong>Physics notes</strong><span>Worked examples from Dr. Hana</span></div>
+                  <div><strong data-i18n="home.heroPhysics">Physics notes</strong><span data-i18n="home.heroPhysicsMeta">Worked examples from Dr. Hana</span></div>
                 </div>
                 <div class="hero-sheet hero-sheet-shift">
                   <i class="bi bi-file-earmark-check"></i>
-                  <div><strong>Past papers</strong><span>Variant 1, 2, and 3</span></div>
+                  <div><strong data-i18n="home.heroPapers">Past papers</strong><span data-i18n="home.heroPapersMeta">Variant 1, 2, and 3</span></div>
                 </div>
                 <div class="hero-sheet">
                   <i class="bi bi-truck"></i>
-                  <div><strong>Across Egypt</strong><span>Home delivery, pickup, or PDF</span></div>
+                  <div><strong data-i18n="home.heroEgypt">Across Egypt</strong><span data-i18n="home.heroEgyptMeta">Home delivery, pickup, or PDF</span></div>
                 </div>
               </div>
             </div>
@@ -105,38 +132,38 @@
         <div class="container">
           <div class="section-head">
             <div>
-              <p class="kicker">Browse by level</p>
-              <h2 id="levels-heading">From O.Level to A.2</h2>
+              <p class="kicker" data-i18n="home.levelsKicker">Browse by level</p>
+              <h2 id="levels-heading" data-i18n="home.levelsTitle">From O.Level to A.2</h2>
             </div>
-            <a href="store.html">View the full store</a>
+            <a href="store.html" data-i18n="home.viewStore">View the full store</a>
           </div>
           <div class="row g-3">
             <div class="col-6 col-lg-3">
               <a class="browse-card" href="store.html?level=O.Level">
                 <span class="icon-blob"><i class="bi bi-1-circle" aria-hidden="true"></i></span>
-                <span class="level-mark">O.Level</span>
-                <p>Foundations, past papers, and classified sets.</p>
+                <span class="level-mark" data-i18n-catalog="level|O.Level">O.Level</span>
+                <p data-i18n="home.levelO">Foundations, past papers, and classified sets.</p>
               </a>
             </div>
             <div class="col-6 col-lg-3">
               <a class="browse-card" href="store.html?level=Pre%20IG">
                 <span class="icon-blob"><i class="bi bi-signpost" aria-hidden="true"></i></span>
-                <span class="level-mark">Pre IG</span>
-                <p>Bridge-year notes before the IGCSE load.</p>
+                <span class="level-mark" data-i18n-catalog="level|Pre IG">Pre IG</span>
+                <p data-i18n="home.levelPre">Bridge-year notes before the IGCSE load.</p>
               </a>
             </div>
             <div class="col-6 col-lg-3">
               <a class="browse-card" href="store.html?level=A.S%20Level">
                 <span class="icon-blob"><i class="bi bi-mortarboard" aria-hidden="true"></i></span>
-                <span class="level-mark">A.S Level</span>
-                <p>First-year A Level papers and teacher notes.</p>
+                <span class="level-mark" data-i18n-catalog="level|A.S Level">A.S Level</span>
+                <p data-i18n="home.levelAS">First-year A Level papers and teacher notes.</p>
               </a>
             </div>
             <div class="col-6 col-lg-3">
               <a class="browse-card" href="store.html?level=A.2%20Level">
                 <span class="icon-blob"><i class="bi bi-award" aria-hidden="true"></i></span>
-                <span class="level-mark">A.2 Level</span>
-                <p>Final-year classified packs and mark schemes.</p>
+                <span class="level-mark" data-i18n-catalog="level|A.2 Level">A.2 Level</span>
+                <p data-i18n="home.levelA2">Final-year classified packs and mark schemes.</p>
               </a>
             </div>
           </div>
@@ -147,37 +174,37 @@
         <div class="container">
           <div class="section-head">
             <div>
-              <p class="kicker">Browse by subject</p>
-              <h2 id="subjects-heading">Physics, Biology, Chemistry, Geography</h2>
+              <p class="kicker" data-i18n="home.subjectsKicker">Browse by subject</p>
+              <h2 id="subjects-heading" data-i18n="home.subjectsTitle">Physics, Biology, Chemistry, Geography</h2>
             </div>
           </div>
           <div class="row g-3">
             <div class="col-6 col-lg-3">
               <a class="subject-card" href="store.html?subject=Physics">
                 <span class="icon-blob"><i class="bi bi-lightning-charge" aria-hidden="true"></i></span>
-                <h3 class="h5 mb-0">Physics</h3>
-                <p>Mechanics, electricity, and waves.</p>
+                <h3 class="h5 mb-0" data-i18n-catalog="subject|Physics">Physics</h3>
+                <p data-i18n="home.physicsBlurb">Mechanics, electricity, and waves.</p>
               </a>
             </div>
             <div class="col-6 col-lg-3">
               <a class="subject-card" href="store.html?subject=Biology">
                 <span class="icon-blob"><i class="bi bi-flower1" aria-hidden="true"></i></span>
-                <h3 class="h5 mb-0">Biology</h3>
-                <p>Cells, genetics, and practicals.</p>
+                <h3 class="h5 mb-0" data-i18n-catalog="subject|Biology">Biology</h3>
+                <p data-i18n="home.biologyBlurb">Cells, genetics, and practicals.</p>
               </a>
             </div>
             <div class="col-6 col-lg-3">
               <a class="subject-card" href="store.html?subject=Chemistry">
                 <span class="icon-blob"><i class="bi bi-droplet-half" aria-hidden="true"></i></span>
-                <h3 class="h5 mb-0">Chemistry</h3>
-                <p>Moles, mechanisms, and mark schemes.</p>
+                <h3 class="h5 mb-0" data-i18n-catalog="subject|Chemistry">Chemistry</h3>
+                <p data-i18n="home.chemistryBlurb">Moles, mechanisms, and mark schemes.</p>
               </a>
             </div>
             <div class="col-6 col-lg-3">
               <a class="subject-card" href="store.html?subject=Geography">
                 <span class="icon-blob"><i class="bi bi-globe2" aria-hidden="true"></i></span>
-                <h3 class="h5 mb-0">Geography</h3>
-                <p>Maps, case studies, and data skills.</p>
+                <h3 class="h5 mb-0" data-i18n-catalog="subject|Geography">Geography</h3>
+                <p data-i18n="home.geographyBlurb">Maps, case studies, and data skills.</p>
               </a>
             </div>
           </div>
@@ -188,10 +215,10 @@
         <div class="container">
           <div class="section-head">
             <div>
-              <p class="kicker">Featured</p>
-              <h2 id="featured-heading">Teachers' picks this term</h2>
+              <p class="kicker" data-i18n="home.featuredKicker">Featured</p>
+              <h2 id="featured-heading" data-i18n="home.featuredTitle">Teachers' picks this term</h2>
             </div>
-            <a href="store.html">Shop all books</a>
+            <a href="store.html" data-i18n="home.shopAll">Shop all books</a>
           </div>
           <div class="row g-4" id="featured-grid"></div>
         </div>
@@ -201,9 +228,9 @@
         <div class="container">
           <div class="section-head">
             <div>
-              <p class="kicker">Latest notes &amp; past papers</p>
-              <h2 id="latest-heading">Just added to the shelf</h2>
-              <p class="lede">Recent notes and past-paper sets, separate from the featured row.</p>
+              <p class="kicker" data-i18n="home.latestKicker">Latest notes &amp; past papers</p>
+              <h2 id="latest-heading" data-i18n="home.latestTitle">Just added to the shelf</h2>
+              <p class="lede" data-i18n="home.latestLede">Recent notes and past-paper sets, separate from the featured row.</p>
             </div>
           </div>
           <div class="row g-4" id="latest-grid"></div>
@@ -214,37 +241,37 @@
         <div class="container">
           <div class="section-head">
             <div>
-              <p class="kicker">Why New Star</p>
-              <h2 id="why-heading">Why families keep the same shelf</h2>
+              <p class="kicker" data-i18n="home.whyKicker">Why New Star</p>
+              <h2 id="why-heading" data-i18n="home.whyTitle">Why families keep the same shelf</h2>
             </div>
           </div>
           <div class="row g-3">
             <div class="col-12 col-md-6 col-lg-3">
               <article class="why-card">
                 <span class="icon-blob"><i class="bi bi-truck" aria-hidden="true"></i></span>
-                <h3>Fast delivery</h3>
-                <p>Printed books move across Egyptian governorates in a few days, or you collect them in Downtown Cairo.</p>
+                <h3 data-i18n="home.whyDeliveryTitle">Fast delivery</h3>
+                <p data-i18n="home.whyDelivery">Printed books move across Egyptian governorates in a few days, or you collect them in Downtown Cairo.</p>
               </article>
             </div>
             <div class="col-12 col-md-6 col-lg-3">
               <article class="why-card">
                 <span class="icon-blob"><i class="bi bi-journal-check" aria-hidden="true"></i></span>
-                <h3>Quality notes</h3>
-                <p>Pages follow the current Cambridge, Edexcel, and Oxford AQA wording, including command words that cost marks.</p>
+                <h3 data-i18n="home.whyQualityTitle">Quality notes</h3>
+                <p data-i18n="home.whyQuality">Pages follow the current Cambridge, Edexcel, and Oxford AQA wording, including command words that cost marks.</p>
               </article>
             </div>
             <div class="col-12 col-md-6 col-lg-3">
               <article class="why-card">
                 <span class="icon-blob"><i class="bi bi-people" aria-hidden="true"></i></span>
-                <h3>Best teachers</h3>
-                <p>Every pack names the teacher who wrote or selected it, so you know whose board notes you are buying.</p>
+                <h3 data-i18n="home.whyTeachersTitle">Best teachers</h3>
+                <p data-i18n="home.whyTeachers">Every pack names the teacher who wrote or selected it, so you know whose board notes you are buying.</p>
               </article>
             </div>
             <div class="col-12 col-md-6 col-lg-3">
               <article class="why-card">
                 <span class="icon-blob"><i class="bi bi-file-earmark-pdf" aria-hidden="true"></i></span>
-                <h3>Instant digital PDFs</h3>
-                <p>Choose a digital download at checkout and keep the same notes on a laptop the same day.</p>
+                <h3 data-i18n="home.whyPdfTitle">Instant digital PDFs</h3>
+                <p data-i18n="home.whyPdf">Choose a digital download at checkout and keep the same notes on a laptop the same day.</p>
               </article>
             </div>
           </div>
@@ -256,25 +283,25 @@
           <div class="newsletter-card">
             <div class="row g-4 align-items-center">
               <div class="col-lg-5">
-                <p class="kicker">Newsletter</p>
-                <h2 id="news-heading">Hear from New Star</h2>
-                <p class="lede">A short note when a new past-paper pack or teacher booklet lands. This demo stays in your browser and does not email anyone.</p>
+                <p class="kicker" data-i18n="home.newsKicker">Newsletter</p>
+                <h2 id="news-heading" data-i18n="home.newsTitle">Hear from New Star</h2>
+                <p class="lede" data-i18n="home.newsLede">A short note when a new past-paper pack or teacher booklet lands. This demo stays in your browser and does not email anyone.</p>
               </div>
               <div class="col-lg-7">
                 <form id="newsletter-form" novalidate>
                   <div class="row g-3">
                     <div class="col-md-5">
-                      <label class="form-label" for="newsletter-name">Name</label>
+                      <label class="form-label" for="newsletter-name" data-i18n="home.name">Name</label>
                       <input class="form-control" id="newsletter-name" name="name" type="text" autocomplete="name" required>
                       <div class="invalid-feedback" id="newsletter-name-error"></div>
                     </div>
                     <div class="col-md-5">
-                      <label class="form-label" for="newsletter-email">Email</label>
+                      <label class="form-label" for="newsletter-email" data-i18n="home.email">Email</label>
                       <input class="form-control" id="newsletter-email" name="email" type="email" autocomplete="email" required>
                       <div class="invalid-feedback" id="newsletter-email-error"></div>
                     </div>
                     <div class="col-md-2 d-flex align-items-end">
-                      <button class="btn btn-primary w-100" type="submit">Join</button>
+                      <button class="btn btn-primary w-100" type="submit" data-i18n="home.join">Join</button>
                     </div>
                   </div>
                 </form>
@@ -290,43 +317,42 @@
         <div class="row g-4">
           <div class="col-lg-5">
             <a class="footer-brand" href="index.html">
-              <i class="bi bi-star-fill brand-star" aria-hidden="true"></i>
-              <span>New Star</span>
+              <img class="brand-logo" src="images/logo.png" alt="New Star" data-i18n-attr="alt:brand.name" width="425" height="338">
             </a>
-            <p class="mt-2">Your trusted source for school books &amp; teachers' notes.</p>
-            <p class="mt-3">Join the New Star list for new notes and past-paper drops. <a href="index.html#newsletter">Newsletter</a></p>
+            <p class="mt-2" data-i18n="footer.tagline">Your trusted source for school books &amp; teachers' notes.</p>
+            <p class="mt-3" data-i18n-html="footer.newsletter">Join the New Star list for new notes and past-paper drops. <a href="index.html#newsletter">Newsletter</a></p>
           </div>
           <div class="col-6 col-lg-3">
-            <h2>Explore</h2>
+            <h2 data-i18n="footer.explore">Explore</h2>
             <ul class="footer-links">
-              <li><a href="index.html">Home</a></li>
-              <li><a href="store.html">Store</a></li>
-              <li><a href="contact.html">Contact</a></li>
-              <li><a href="checkout.html">Checkout</a></li>
+              <li><a href="index.html" data-i18n="nav.home">Home</a></li>
+              <li><a href="store.html" data-i18n="nav.store">Store</a></li>
+              <li><a href="contact.html" data-i18n="nav.contact">Contact</a></li>
+              <li><a href="checkout.html" data-i18n="nav.checkout">Checkout</a></li>
             </ul>
           </div>
           <div class="col-6 col-lg-4">
-            <h2>Follow</h2>
+            <h2 data-i18n="footer.follow">Follow</h2>
             <div class="social-row">
-              <a href="https://facebook.com" aria-label="New Star on Facebook" target="_blank" rel="noopener noreferrer"><i class="bi bi-facebook" aria-hidden="true"></i></a>
-              <a href="https://instagram.com" aria-label="New Star on Instagram" target="_blank" rel="noopener noreferrer"><i class="bi bi-instagram" aria-hidden="true"></i></a>
-              <a href="https://youtube.com" aria-label="New Star on YouTube" target="_blank" rel="noopener noreferrer"><i class="bi bi-youtube" aria-hidden="true"></i></a>
-              <a href="https://wa.me/201005550192" aria-label="New Star on WhatsApp" target="_blank" rel="noopener noreferrer"><i class="bi bi-whatsapp" aria-hidden="true"></i></a>
+              <a href="https://facebook.com" data-i18n-attr="aria-label:social.facebook" target="_blank" rel="noopener noreferrer"><i class="bi bi-facebook" aria-hidden="true"></i></a>
+              <a href="https://instagram.com" data-i18n-attr="aria-label:social.instagram" target="_blank" rel="noopener noreferrer"><i class="bi bi-instagram" aria-hidden="true"></i></a>
+              <a href="https://youtube.com" data-i18n-attr="aria-label:social.youtube" target="_blank" rel="noopener noreferrer"><i class="bi bi-youtube" aria-hidden="true"></i></a>
+              <a href="https://wa.me/201005550192" data-i18n-attr="aria-label:social.whatsapp" target="_blank" rel="noopener noreferrer"><i class="bi bi-whatsapp" aria-hidden="true"></i></a>
             </div>
           </div>
         </div>
-        <p class="copyright">© 2026 New Star. All rights reserved.</p>
+        <p class="copyright" data-i18n="footer.copyright">© 2026 New Star. All rights reserved.</p>
       </div>
     </footer>
   </div>
 
   <div class="offcanvas offcanvas-end" tabindex="-1" id="wishlistOffcanvas" aria-labelledby="wishlistOffcanvasLabel">
     <div class="offcanvas-header">
-      <h2 class="offcanvas-title h5" id="wishlistOffcanvasLabel">Wishlist</h2>
-      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close wishlist"></button>
+      <h2 class="offcanvas-title h5" id="wishlistOffcanvasLabel" data-i18n="wishlist.title">Wishlist</h2>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-i18n-attr="aria-label:a11y.closeWishlist"></button>
     </div>
     <div class="offcanvas-body">
-      <p id="wishlist-empty">Your wishlist is empty. Tap the heart on any New Star book to save it.</p>
+      <p id="wishlist-empty" data-i18n="wishlist.empty">Your wishlist is empty. Tap the heart on any New Star book to save it.</p>
       <div id="wishlist-list" aria-live="polite"></div>
     </div>
   </div>
@@ -335,8 +361,8 @@
     <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <h2 class="modal-title h5" id="quick-view-title">Book</h2>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close quick view"></button>
+          <h2 class="modal-title h5" id="quick-view-title" data-i18n="wishlist.book">Book</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" data-i18n-attr="aria-label:a11y.closeQuickView"></button>
         </div>
         <div class="modal-body">
           <div class="quick-view-layout">
@@ -351,9 +377,9 @@
                 <span class="old-price" id="quick-view-old" hidden></span>
               </div>
               <div class="d-flex flex-wrap gap-2 mt-2">
-                <button type="button" class="btn btn-primary js-add-cart" id="quick-view-cart">Add to Cart</button>
-                <button type="button" class="btn btn-outline-primary js-wishlist" id="quick-view-wish" aria-pressed="false" aria-label="Add to wishlist">
-                  <i class="bi bi-heart" aria-hidden="true"></i> Wishlist
+                <button type="button" class="btn btn-primary js-add-cart" id="quick-view-cart" data-i18n="actions.addToCart">Add to Cart</button>
+                <button type="button" class="btn btn-outline-primary js-wishlist" id="quick-view-wish" aria-pressed="false" data-i18n-attr="aria-label:a11y.addToWishlist">
+                  <i class="bi bi-heart" aria-hidden="true"></i> <span data-i18n="actions.wishlist">Wishlist</span>
                 </button>
               </div>
             </div>
@@ -367,8 +393,8 @@
     <div id="site-toast" class="toast" role="status" aria-live="polite" aria-atomic="true">
       <div class="toast-header">
         <i class="bi bi-star-fill brand-star me-2" aria-hidden="true"></i>
-        <strong class="me-auto">New Star</strong>
-        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close notification"></button>
+        <strong class="me-auto" data-i18n="brand.name">New Star</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="toast" data-i18n-attr="aria-label:a11y.closeNotification"></button>
       </div>
       <div class="toast-body" id="site-toast-body"></div>
     </div>
@@ -380,6 +406,9 @@
 
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="i18n/en.js"></script>
+  <script src="i18n/ar.js"></script>
+  <script src="js/i18n.js"></script>
   <script src="js/products.js"></script>
   <script src="js/main.js"></script>
 </body>

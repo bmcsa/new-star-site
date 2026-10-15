@@ -7,27 +7,31 @@
     return ($("#search-input").val() || "").trim();
   }
 
-  function fieldBlob(product) {
-    return [product.title, product.subject, product.teacher, product.level, product.category, product.curriculum, product.variant]
-      .join(" ")
-      .toLowerCase();
-  }
-
   function fieldHit(product, query) {
     var terms = query.toLowerCase().split(/\s+/).filter(Boolean);
-    var blob = fieldBlob(product);
+    var blob = window.NewStarI18n.haystack(product);
     return terms.every(function (term) {
       return blob.indexOf(term) !== -1;
     });
   }
 
+  function includesTerm(values, query) {
+    for (var i = 0; i < values.length; i += 1) {
+      if (values[i].indexOf(query) !== -1) return true;
+    }
+    return false;
+  }
+
   function score(product, query) {
     var q = query.toLowerCase();
-    var title = product.title.toLowerCase();
-    if (title.indexOf(q) === 0) return 0;
-    if (title.indexOf(q) !== -1) return 1;
-    if (product.subject.toLowerCase().indexOf(q) !== -1) return 2;
-    if (product.teacher.toLowerCase().indexOf(q) !== -1) return 3;
+    var titles = [product.title.toLowerCase(), window.NewStarI18n.productText(product, "title").toLowerCase()];
+    var i;
+    for (i = 0; i < titles.length; i += 1) {
+      if (titles[i].indexOf(q) === 0) return 0;
+    }
+    if (includesTerm(titles, q)) return 1;
+    if (includesTerm([product.subject.toLowerCase(), window.NewStarI18n.catalog("subject", product.subject).toLowerCase()], q)) return 2;
+    if (includesTerm([product.teacher.toLowerCase(), window.NewStarI18n.catalog("teacher", product.teacher).toLowerCase()], q)) return 3;
     return 4;
   }
 
@@ -84,16 +88,16 @@
           NewStar.escapeHtml(product.id) +
           '">' +
           '<span class="suggestion-title">' +
-          NewStar.highlightText(product.title, query) +
+          NewStar.highlightText(window.NewStarI18n.productText(product, "title"), query) +
           "</span>" +
           '<span class="suggestion-meta">' +
-          NewStar.escapeHtml(product.level) +
+          NewStar.mixedHtml(window.NewStarI18n.catalog("level", product.level)) +
           " · " +
-          NewStar.escapeHtml(product.subject) +
+          NewStar.mixedHtml(window.NewStarI18n.catalog("subject", product.subject)) +
           " · " +
-          NewStar.escapeHtml(product.teacher) +
+          NewStar.mixedHtml(window.NewStarI18n.catalog("teacher", product.teacher)) +
           " · " +
-          NewStar.escapeHtml(product.category) +
+          NewStar.mixedHtml(window.NewStarI18n.catalog("category", product.category)) +
           "</span></button></li>"
         );
       })
@@ -113,12 +117,12 @@
       return;
     }
     var matches = findMatches(term);
-    var noun = matches.length === 1 ? "result" : "results";
-    $("#search-count").text(matches.length + " " + noun + " for “" + term + "”");
+    var noun = window.NewStarI18n.noun(matches.length, "result");
+    $("#search-count").html(window.NewStarI18n.tHtml("search.count", { count: matches.length, noun: noun, query: term }));
     if (!matches.length) {
       $("#search-results").empty().prop("hidden", true);
       $("#search-empty").prop("hidden", false);
-      $("#search-empty-query").text(term);
+      $("#search-empty-title").html(window.NewStarI18n.tHtml("search.nothing", { query: term }));
       return;
     }
     $("#search-empty").prop("hidden", true);
@@ -130,35 +134,54 @@
     $("#search-input").val(value);
     hideSuggestions();
     renderResults(value);
-    var url = "search.html" + (value ? "?q=" + encodeURIComponent(value) : "");
     if (push && window.history && window.history.replaceState) {
-      window.history.replaceState(null, "", url);
+      window.history.replaceState(null, "", searchUrl(value));
     }
+  }
+
+  function searchUrl(value) {
+    var params = new URLSearchParams(window.location.search);
+    if (value) params.set("q", value);
+    else params.delete("q");
+    var query = params.toString();
+    return "search.html" + (query ? "?" + query : "");
   }
 
   function chooseSuggestion(id) {
     var product = NewStar.getProduct(id);
     if (!product) return;
-    commitSearch(product.title, true);
+    commitSearch(window.NewStarI18n.productText(product, "title"), true);
+  }
+
+  function readInitialQuery() {
+    var params = new URLSearchParams(window.location.search);
+    return params.get("q") || "";
   }
 
   $(function () {
-    if (!$("#search-form").length || !window.NewStar) return;
+    if (!$("#search-form").length || !window.NewStar || !window.NewStarI18n) return;
 
-    var params = new URLSearchParams(window.location.search);
-    var initial = params.get("q") || "";
-    if (initial) {
-      $("#search-input").val(initial);
-      renderResults(initial);
-    }
+    window.NewStarI18n.ready.then(function () {
+      var initial = readInitialQuery();
+      if (initial) {
+        $("#search-input").val(initial);
+        renderResults(initial);
+      }
+    });
+
+    $(document).on("newstar:lang", function () {
+      if (!$("#search-form").length) return;
+      var value = queryFromInput();
+      renderSuggestions(value);
+      renderResults(value);
+    });
 
     $("#search-input").on("input", function () {
       var value = queryFromInput();
       renderSuggestions(value);
       renderResults(value);
       if (window.history && window.history.replaceState) {
-        var url = "search.html" + (value ? "?q=" + encodeURIComponent(value) : "");
-        window.history.replaceState(null, "", url);
+        window.history.replaceState(null, "", searchUrl(value));
       }
     });
 
